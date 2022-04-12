@@ -1,0 +1,3 @@
+# Changelog for slit-scan
+
+## Unreleased changes
