@@ -1,0 +1,86 @@
+% Created 2022-04-14 Do 00:17
+% Intended LaTeX compiler: pdflatex
+\documentclass[letterpaper, 11pt]{article}
+                      \usepackage{lmodern} % Ensures we have the right font
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[table, xcdraw]{xcolor}
+\definecolor{bblue}{HTML}{0645AD}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{colorlinks, linkcolor=blue, urlcolor=bblue}
+\usepackage{titling}
+\setlength{\droptitle}{-6em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\usepackage[stretch=10]{microtype}
+\usepackage{hyphenat}
+\usepackage{ragged2e}
+\usepackage{subfig} % Subfigures (not needed in Org I think)
+\usepackage{hyperref} % Links
+\usepackage{listings} % Code highlighting
+\usepackage[top=1in, bottom=1.25in, left=1.55in, right=1.55in]{geometry}
+\renewcommand{\baselinestretch}{1.15}
+\usepackage[explicit]{titlesec}
+\pretitle{\begin{center}\fontsize{20pt}{20pt}\selectfont}
+\posttitle{\par\end{center}}
+\preauthor{\begin{center}\vspace{-6bp}\fontsize{14pt}{14pt}\selectfont}
+\postauthor{\par\end{center}\vspace{-25bp}}
+\predate{\begin{center}\fontsize{12pt}{12pt}\selectfont}
+\postdate{\par\end{center}\vspace{0em}}
+\titlespacing\section{0pt}{5pt}{5pt} % left margin, space before section header, space after section header
+\titlespacing\subsection{0pt}{5pt}{-2pt} % left margin, space before subsection header, space after subsection header
+\titlespacing\subsubsection{0pt}{5pt}{-2pt} % left margin, space before subsection header, space after subsection header
+\usepackage{enumitem}
+\setlist{itemsep=-2pt} % or \setlist{noitemsep} to leave space around whole list
+\usepackage {mathtools , amssymb , amsthm}
+\author{Fred Mitchell}
+\date{\today}
+\title{Slit Scan -- Generate an effect similar to 2001's star gate sequences}
+\hypersetup{
+ pdfauthor={Fred Mitchell},
+ pdftitle={Slit Scan -- Generate an effect similar to 2001's star gate sequences},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.1 (Org mode 9.1.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{slit-scan}
+\label{sec:orgf06b19b}
+\subsection{Created By}
+\label{sec:org425867d}
+Fred Mitchell
+\subsection{Introduction}
+\label{sec:org6a3743c}
+Slit-Scan is the command-line tool that allow you to create slit-scans similar to
+the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
+to allow you to acheive results even beyond what was acheived in what is arguably the greatest
+Science Fiction film of all time.
+\subsection{Mathematics}
+\label{sec:org1dac79e}
+Here, we fully specify the mathematics involved with the slit-scan function.
+Firstly, we define the slit function as a function between 2 points.
+
+\item $t$ is time, in seconds, and
+\item $p_1, p_2$
+are points defining tbe beginning and ending of the slit, and
+\item $$
+f(p_1, p_2) = somefunction
+$$
+
+Secondly, we define the movement of the slit across an image:
+\begin{equation}
+x=\sqrt{b}
+\end{equation}
+
+Thirdly, we define the compositor function:
+\begin{equation}
+x=\sqrt{b}
+\end{equation}
+\end{document}

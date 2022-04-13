@@ -1,14 +1,14 @@
 name:                slit-scan
 version:             0.1.0.0
-github:              "githubuser/slit-scan"
-license:             BSD3
-author:              "Author name here"
+github:              "flajann2/slit-scan"
+license:             MIT
+author:              "Fred Mitchell"
 maintainer:          "example@example.com"
-copyright:           "2022 Author name here"
+copyright:           "2022 Fred Mitchell"
 
 extra-source-files:
-- README.md
-- ChangeLog.md
+- README.org
+- ChangeLog.org
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package

@@ -1,1 +1,39 @@
-# slit-scan
+#+TITLE: Slit Scan -- Generate an effect similar to 2001's star gate sequences
+#+AUTHOR: Fred Mitchell
+#+SETUPFILE: /development/config/LaTeX-Org-setup.org
+
+* slit-scan 
+** Created By
+   Fred Mitchell
+** Introduction
+   Slit-Scan is the command-line tool that allow you to create slit-scans similar to
+   the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
+   to allow you to acheive results even beyond what was acheived in what is arguably the greatest
+   Science Fiction film of all time.
+** Mathematics
+   Here, we fully specify the mathematics involved with the slit-scan function.
+   Firstly, we define the slit function as a function between 2 points.
+     
+     #+BEGIN_EXPORT latex
+     \item $t$ is time, in seconds, and
+     \item $p_1, p_2$
+     are points defining tbe beginning and ending of the slit, and
+     \item $$
+     f(p_1, p_2) = somefunction
+     $$
+     #+END_EXPORT
+
+   Secondly, we define the movement of the slit across an image:
+     #+BEGIN_EXPORT latex
+     \begin{equation}
+     x=\sqrt{b}
+     \end{equation}
+     #+END_EXPORT
+
+   Thirdly, we define the compositor function:
+     #+BEGIN_EXPORT latex
+     \begin{equation}
+     x=\sqrt{b}
+     \end{equation}
+     #+END_EXPORT
+
