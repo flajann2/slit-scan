@@ -1,11 +1,24 @@
-% Created 2022-04-14 Do 09:18
+% Created 2022-04-14 Do 12:04
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
-                      \usepackage{lmodern} % Ensures we have the right font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{lmodern} % Ensures we have the right font
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage{amsmath, amsthm, amssymb}
+\usepackage{graphicx, breqn}
+\usepackage{mathtools, amsthm, amssymb, breqn}
 \usepackage[table, xcdraw]{xcolor}
 \definecolor{bblue}{HTML}{0645AD}
 \usepackage[colorlinks]{hyperref}
@@ -20,6 +33,7 @@
 \usepackage{subfig} % Subfigures (not needed in Org I think)
 \usepackage{hyperref} % Links
 \usepackage{listings} % Code highlighting
+\usepackage{pgfplots} % Plotting graphs
 \usepackage[top=1in, bottom=1.25in, left=1.55in, right=1.55in]{geometry}
 \renewcommand{\baselinestretch}{1.15}
 \usepackage[explicit]{titlesec}
@@ -52,18 +66,18 @@
 
 
 \section{slit-scan}
-\label{sec:org5e9f4ad}
+\label{sec:org54b5b2c}
 \subsection{Created By}
-\label{sec:org69825c4}
+\label{sec:org527e18f}
 Fred Mitchell
 \subsection{Introduction}
-\label{sec:org6419823}
+\label{sec:org12f709f}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:org8d02a1e}
+\label{sec:orgc89aa27}
 Here, we fully specify the mathematics involved with the slit-scan function.
 Firstly, we define the slit function as a function between 2 points.
 
@@ -71,17 +85,27 @@ Firstly, we define the slit function as a function between 2 points.
 \item $p_1, p_2$
 are points defining tbe beginning and ending of the slit, and
 \item $$
- f(p_1, p_2) = g(p_1, p_2, slit(\rho)) \left| _{\rho=0} ^{\rho=1}
+ f(p_1, p_2, \rho) = g(p_1, p_2, slit(\rho)) \left|_{\rho=0}^{\rho=1}
 $$
 where \(line(\rho)\) defines the shape of the slit. For the traditional case,
-\(line(\rho)\) will be \(0\), defining a flat line from \(p_1\) to \(p_2\).
+\(line(\rho)\) will be \(0\), defining a straight line from \(p_1\) to \(p_2\).
 
-Secondly, we define the movement of the slit across an image:
-\begin{equation}
-x=\sqrt{b}
-\end{equation}
+\(\rho\) is the parametic for the slit.
+
+Secondly, we define the movement of the slit across an image in terms of time \(t\):
+\begin{dmath*}
+    p_1{_t} = p_1(t) \\
+    p_2{_t} = p_2(t)
+\end{dmath*}
 
 Thirdly, we define the compositor function:
+
+\begin{tikzpicture}
+  \begin{axis} [grid, axis lines=center]
+  \addplot [domain=-3:3, thick, smooth] { x^3 - 6*x };
+  \end{axis}
+\end{tikzpicture}
+
 \begin{equation}
 x=\sqrt{b}
 \end{equation}
