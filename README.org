@@ -19,9 +19,11 @@
      \item $p_1, p_2$
      are points defining tbe beginning and ending of the slit, and
      \item $$
-     f(p_1, p_2) = somefunction
+      f(p_1, p_2) = g(p_1, p_2, slit(\rho)) \left| _{\rho=0} ^{\rho=1}
      $$
      #+END_EXPORT
+     where $line(\rho)$ defines the shape of the slit. For the traditional case,
+     $line(\rho)$ will be $0$, defining a straight line from $p_1$ to $p_2$.
 
    Secondly, we define the movement of the slit across an image:
      #+BEGIN_EXPORT latex
