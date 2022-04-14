@@ -1,4 +1,4 @@
-% Created 2022-04-14 Do 12:04
+% Created 2022-04-14 Do 23:13
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -66,18 +66,18 @@
 
 
 \section{slit-scan}
-\label{sec:org54b5b2c}
+\label{sec:org4fc88cb}
 \subsection{Created By}
-\label{sec:org527e18f}
+\label{sec:org4cf805a}
 Fred Mitchell
 \subsection{Introduction}
-\label{sec:org12f709f}
+\label{sec:org5ed55df}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:orgc89aa27}
+\label{sec:org6dd5691}
 Here, we fully specify the mathematics involved with the slit-scan function.
 Firstly, we define the slit function as a function between 2 points.
 
@@ -85,7 +85,7 @@ Firstly, we define the slit function as a function between 2 points.
 \item $p_1, p_2$
 are points defining tbe beginning and ending of the slit, and
 \item $$
- f(p_1, p_2, \rho) = g(p_1, p_2, slit(\rho)) \left|_{\rho=0}^{\rho=1}
+ f(p_1, p_2, \rho) = g(p_1, p_2, slit(\rho)) \Bigr| _{\rho=0} ^{\rho=1}
 $$
 where \(line(\rho)\) defines the shape of the slit. For the traditional case,
 \(line(\rho)\) will be \(0\), defining a straight line from \(p_1\) to \(p_2\).
@@ -93,10 +93,12 @@ where \(line(\rho)\) defines the shape of the slit. For the traditional case,
 \(\rho\) is the parametic for the slit.
 
 Secondly, we define the movement of the slit across an image in terms of time \(t\):
-\begin{dmath*}
-    p_1{_t} = p_1(t) \\
+$$
+\begin{array}{l}
+    p_1{_t} = p_1(t)\\
     p_2{_t} = p_2(t)
-\end{dmath*}
+\end{array}
+$$
 
 Thirdly, we define the compositor function:
 
@@ -106,7 +108,7 @@ Thirdly, we define the compositor function:
   \end{axis}
 \end{tikzpicture}
 
-\begin{equation}
-x=\sqrt{b}
-\end{equation}
+$$
+ \frac{f(x)-f(a) x-a}g
+$$
 \end{document}

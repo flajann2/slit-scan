@@ -19,7 +19,7 @@
      \item $p_1, p_2$
      are points defining tbe beginning and ending of the slit, and
      \item $$
-      f(p_1, p_2, \rho) = g(p_1, p_2, slit(\rho)) \left|_{\rho=0}^{\rho=1}
+      f(p_1, p_2, \rho) = g(p_1, p_2, slit(\rho)) \Bigr| _{\rho=0} ^{\rho=1}
      $$
      #+END_EXPORT
      where $line(\rho)$ defines the shape of the slit. For the traditional case,
@@ -29,10 +29,12 @@
 
    Secondly, we define the movement of the slit across an image in terms of time $t$:
      #+BEGIN_EXPORT latex
-     \begin{dmath*}
-         p_1{_t} = p_1(t) \\
+     $$
+     \begin{array}{l}
+         p_1{_t} = p_1(t)\\
          p_2{_t} = p_2(t)
-     \end{dmath*}
+     \end{array}
+     $$
      #+END_EXPORT
 
    Thirdly, we define the compositor function:
@@ -44,8 +46,8 @@
        \end{axis}
      \end{tikzpicture}
 
-     \begin{equation}
-     x=\sqrt{b}
-     \end{equation}
+     $$
+      \frac{f(x)-f(a) x-a}g
+     $$
      #+END_EXPORT
 
