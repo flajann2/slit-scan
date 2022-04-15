@@ -1,4 +1,4 @@
-% Created 2022-04-15 Fri 21:39
+% Created 2022-04-15 Fri 22:04
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,20 +69,20 @@
 
 
 \section{Fundamentals and Design}
-\label{sec:orga1b8662}
+\label{sec:org68e21f2}
 \includegraphics[scale=0.4]{images/2001-example.png}
 \subsection{Introduction}
-\label{sec:orga2778d7}
+\label{sec:org9f5703f}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:org2afdc5c}
+\label{sec:org937b980}
 Here, we fully specify the mathematics involved with the slit-scan function.
 
 \subsubsection{Generating the slit}
-\label{sec:orgddda505}
+\label{sec:org718a2b5}
 Firstly, we define the slit function as a function between 2 points.
 
 \item $t$ is time, in seconds, and
@@ -126,26 +126,21 @@ contents of the slit unto the final canvas. Here, the canvas is bisected either 
 by a straight-line slit, and with each time instant, the slit contents is forwarded away from the slit.
 
 \subsubsection{The Compositor}
-\label{sec:org8f00d03}
+\label{sec:org791f953}
 The compositor may "stretch" the contents of the slit as a function of the distance from the slit until it
 reaches the end of the canvass.
 
 \tikzset{annotations/.style = {
   tsx/show help lines,
   every path/.append style = {very thick, color = red},
-  every node/.append style = {green,
-  font = \bfseries\sffamily}}}
+  every node/.append style = {blue, font = \bfseries\sffamily}}}
 
 \begin{tikzonimage}[width=.8\textwidth]{images/compositor.png}
   [annotations]
-  \draw[dashed] (0.59,0.71) -- (0.86,0.12) (0.634,0.71) -- (0.86,0.12);
-  \draw[dotted] (0.56,0.85) -- (0.86,0.12) (0.66,0.85) -- (0.86,0.12);
-  \draw (0.3,0.4) edge[->] (0.68,0.4) (0.3,0.4) edge[->] (0.3,0.93);
-  \node[rotate=90] at (0.28,0.8) {height};
-  \node            at (0.62,0.35) {velocity};
+  \draw (0.3,0.5) edge[->] (0.1,0.9) (0.73,0.4) edge[->] (0.9,0.9);
+  \node[rotate=90] at (0.27,0.3) {canvas};
+  \node[rotate=30] at (0.86,0.65) {slit expansion};
 \end{tikzonimage}
-
-\includegraphics[scale=0.2]{images/compositor.png}
 
 \begin{tikzpicture}
   \begin{axis} [grid, axis lines=center]
@@ -158,5 +153,5 @@ $$
 $$
 
 \section{General Documentation and Use}
-\label{sec:org3553636}
+\label{sec:orgec6eba1}
 \end{document}
