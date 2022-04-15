@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   sodipodi:docname="compositor.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.77771465"
+     inkscape:cx="397.31796"
+     inkscape:cy="424.32016"
+     inkscape:window-width="3840"
+     inkscape:window-height="2131"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:object-paths="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-midpoints="true" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4085">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4081" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop4083" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4077">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4073" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop4075" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3527">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3523" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3525" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3406"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3404" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3527"
+       id="linearGradient3529"
+       x1="116.16716"
+       y1="55.82375"
+       x2="116.16716"
+       y2="247.72906"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.49812228,0,28.016696)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4077"
+       id="linearGradient4079"
+       x1="-112.52368"
+       y1="55.570992"
+       x2="-112.32071"
+       y2="151.20288"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4085"
+       id="linearGradient4087"
+       x1="344.10999"
+       y1="55.572308"
+       x2="343.90881"
+       y2="150.70601"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3527"
+       id="linearGradient5220"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.49812228,5.389984e-6,122.63737)"
+       x1="116.16715"
+       y1="246.22339"
+       x2="116.16715"
+       y2="54.763042" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient3529);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0567;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect866"
+       width="275.57916"
+       height="94.842316"
+       x="-21.622427"
+       y="55.82375"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M -21.621032,150.66606 H 253.95535 v 0"
+       id="path1017"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 253.95535,55.110117 Z"
+       id="path1019"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <path
+       style="fill:url(#linearGradient4087);stroke:#000000;stroke-width:1.48992;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       d="m 434.26325,55.320867 -180.30651,0.502883 0.3505,93.65411 z"
+       id="path1153"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <path
+       style="fill:url(#linearGradient4079);stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       d="m -203.42493,55.318235 181.802503,0.505515 -0.35341,94.14442 z"
+       id="path1153-3"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <rect
+       style="fill:url(#linearGradient3529);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0567;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect5065"
+       width="275.57916"
+       height="94.842316"
+       x="-21.622427"
+       y="55.82375"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+    <rect
+       style="fill:url(#linearGradient5220);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0567;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect5065-3"
+       width="275.57916"
+       height="94.842316"
+       x="-21.622423"
+       y="150.44441"
+       inkscape:export-filename="/home/alveric/development/haskell/slit-scan/images/compositor.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120" />
+  </g>
+</svg>
