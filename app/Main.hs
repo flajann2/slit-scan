@@ -1,6 +1,7 @@
 module Main where
 
-import Lib
+import Slit
+import Scan 
 
 main :: IO ()
 main = someFunc

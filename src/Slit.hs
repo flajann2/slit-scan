@@ -1,4 +1,4 @@
-module Lib
+module Slit 
     ( someFunc
     ) where
 
