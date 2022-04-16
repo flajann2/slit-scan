@@ -1,23 +1,20 @@
 name:                slit-scan
-version:             0.1.0.0
+version:             0.0.0.0
 github:              "flajann2/slit-scan"
 license:             MIT
 author:              "Fred Mitchell"
-maintainer:          "example@example.com"
+maintainer:          "fred.mitchell@kiwelt.de"
 copyright:           "2022 Fred Mitchell"
 
 extra-source-files:
-- README.org
+- README.pdf
 - ChangeLog.org
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            Slit Scan command-line implementation.
+category:            Graphics, Image Processing
 
-# To avoid duplicated efforts in documentation and dealing with the
-# complications of embedding Haddock markup inside cabal files, it is
-# common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/slit-scan#readme>
+description:         Please see the README PDF on GitHub at <https://github.com/flajann2/slit-scan#readme>
 
 dependencies:
 - base >= 4.7 && < 5
@@ -26,7 +23,7 @@ library:
   source-dirs: src
 
 executables:
-  slit-scan-exe:
+  slit-scan-bin:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

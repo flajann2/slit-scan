@@ -5,18 +5,20 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           slit-scan
-version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/slit-scan#readme>
+version:        0.0.0.0
+synopsis:       Slit Scan command-line implementation.
+description:    Please see the README PDF on GitHub at <https://github.com/flajann2/slit-scan#readme>
+category:       Graphics, Image Processing
 homepage:       https://github.com/flajann2/slit-scan#readme
 bug-reports:    https://github.com/flajann2/slit-scan/issues
 author:         Fred Mitchell
-maintainer:     example@example.com
+maintainer:     fred.mitchell@kiwelt.de
 copyright:      2022 Fred Mitchell
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
-    README.org
+    README.pdf
     ChangeLog.org
 
 source-repository head
@@ -34,7 +36,7 @@ library
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable slit-scan-exe
+executable slit-scan-bin
   main-is: Main.hs
   other-modules:
       Paths_slit_scan
