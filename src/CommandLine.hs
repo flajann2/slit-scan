@@ -1,33 +1,37 @@
 module CommandLine
   ( commandline
-  , Parameters
+  , Parms
   ) where
 
 import Options.Applicative
 import Data.Semigroup ((<>))
 
-data Parameters = Parameters
+data Parms = Parms
   { img1       :: String
   , img2       :: String
-  , quiet      :: Bool
-  , enthusiasm :: Int }
+  , vert       :: Bool
+  , format     :: String }
 
-parms :: Parser Parameters
-parms = Parameters
+parms :: Parser Parms
+parms = Parms
       <$> strOption
-          ( long "hello"
-         <> metavar "TARGET"
-         <> help "Target for the greeting" )
+          ( long "img1"
+            <> metavar "SOURCE1"
+            <> help "First image to scan")
+      <*> strOption
+          ( long "img2"
+            <> metavar "SOURCE2"
+            <> help "Second image to scan")
       <*> switch
-          ( long "quiet"
-         <> short 'q'
-         <> help "Whether to be quiet" )
+          ( long "vert"
+         <> short 'V'
+         <> help "Do vertical slit instead of horizontal" )
       <*> option auto
-          ( long "enthusiasm"
-         <> help "How enthusiastically to greet"
+          ( long "format"
+         <> help "Output format (png, mp4)"
          <> showDefault
-         <> value 1
-         <> metavar "INT" )
+         <> value "png"
+         <> metavar "FILETYPE" )
 
 commandline :: IO ()
 commandline = greet =<< execParser opts
@@ -37,8 +41,8 @@ commandline = greet =<< execParser opts
      <> progDesc "Print a greeting for TARGET"
      <> header "hello - a test for optparse-applicative" )
 
-greet :: Parameters -> IO ()
-greet (Parameters h False n) = putStrLn $ "Hello, " ++ h ++ replicate n '!'
+greet :: Parms -> IO ()
+greet (Parms h k False f) = putStrLn $ "Hello, " ++ h ++ k ++ ", format" ++ f 
 greet _ = return ()
 
 
