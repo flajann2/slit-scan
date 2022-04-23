@@ -1,4 +1,4 @@
-% Created 2022-04-15 Fri 22:04
+% Created 2022-04-23 Sa 15:49
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,20 +69,20 @@
 
 
 \section{Fundamentals and Design}
-\label{sec:org68e21f2}
+\label{sec:org1677bfe}
 \includegraphics[scale=0.4]{images/2001-example.png}
 \subsection{Introduction}
-\label{sec:org9f5703f}
+\label{sec:org476b610}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:org937b980}
+\label{sec:org7b2e127}
 Here, we fully specify the mathematics involved with the slit-scan function.
 
 \subsubsection{Generating the slit}
-\label{sec:org718a2b5}
+\label{sec:org8d12b2c}
 Firstly, we define the slit function as a function between 2 points.
 
 \item $t$ is time, in seconds, and
@@ -126,7 +126,7 @@ contents of the slit unto the final canvas. Here, the canvas is bisected either 
 by a straight-line slit, and with each time instant, the slit contents is forwarded away from the slit.
 
 \subsubsection{The Compositor}
-\label{sec:org791f953}
+\label{sec:org5fa57a2}
 The compositor may "stretch" the contents of the slit as a function of the distance from the slit until it
 reaches the end of the canvass.
 
@@ -152,6 +152,23 @@ $$
  \frac{f(x)-f(a) x-a}g
 $$
 
-\section{General Documentation and Use}
-\label{sec:orgec6eba1}
+\section{General Documentation and Use of Slit Scan}
+\label{sec:org2b5babf}
+This covers the usage from the command-line. Rather than go into extensive documentation
+on the command-line commands and options (the program itself provides this), we shall
+give some helpul examples.
+\subsection{Simple case -- one image, simple vertical slit}
+\label{sec:orge102699}
+slit-scan --i1 flower.jpg --format png --out film/
+
+\subsection{Typical -- 2 images simple vertical and horizontal slits}
+\label{sec:orgd9df231}
+\subsection{Advanced 1 -- 2 images, staight line rotating slit}
+\label{sec:org1383a86}
+\subsection{Advanced 2 -- 2 images, sine slit}
+\label{sec:org3269564}
+\subsection{Advanced 3 -- 2 images, rotating sine slit}
+\label{sec:org0e61387}
+\subsection{Advanced 4 -- 2 images, arbitrary function for the slit and the 2 endpoints}
+\label{sec:org889da5c}
 \end{document}

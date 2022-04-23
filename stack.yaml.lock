@@ -39,6 +39,20 @@ packages:
       sha256: ca87d3e94d894f421c8164428d48fad4a6ab0b5011e52e1287fa34051382faa3
   original:
     hackage: statestack-0.3.1
+- completed:
+    hackage: repa-algorithms-3.4.1.5@sha256:76cd80f537278b9182c59629956ad0aacbb4e6ef8016bc12097a7e22ef8c4e64,1921
+    pantry-tree:
+      size: 938
+      sha256: 2c4ed6a7e619a1251b7e90301df6c4050cb8568332ee3efa15d78d11d0f6be24
+  original:
+    hackage: repa-algorithms-3.4.1.5
+- completed:
+    hackage: optparse-applicative-0.17.0.0@sha256:0713e54cbb341e5cae979e2ac441eb3a5ff42e303001f432bd58c19e5638bdda,4967
+    pantry-tree:
+      size: 3124
+      sha256: 3b4398845ee6718fe2303870a5ab75bd190eb712fed2f22caaae30f790c490fd
+  original:
+    hackage: optparse-applicative-0.17.0.0
 snapshots:
 - completed:
     size: 617368

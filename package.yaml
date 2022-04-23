@@ -21,21 +21,27 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+    - optparse-applicative
 
 executables:
   slit-scan-bin:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - slit-scan
-    - hip
+      - slit-scan
+      - optparse-applicative
+      - hip
+      - repa
+      - repa-algorithms
+      - criterion
 
-  test-Hip:
-    main:                test-Hip.hs
+  bench-Hip:
+    main:                bench-Hip.hs
     source-dirs:         examples
     ghc-options:
     - -threaded
@@ -50,6 +56,8 @@ executables:
     - deepseq
     - massiv
     - massiv-io
+    - repa
+    - repa-algorithms
   
 tests:
   slit-scan-test:

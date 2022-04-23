@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      CommandLine
       Scan
       Slit
   other-modules:
@@ -35,23 +36,11 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , optparse-applicative
   default-language: Haskell2010
 
-executable slit-scan-bin
-  main-is: Main.hs
-  other-modules:
-      Paths_slit_scan
-  hs-source-dirs:
-      app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base >=4.7 && <5
-    , hip
-    , slit-scan
-  default-language: Haskell2010
-
-executable test-Hip
-  main-is: test-Hip.hs
+executable bench-Hip
+  main-is: bench-Hip.hs
   other-modules:
       Paths_slit_scan
   hs-source-dirs:
@@ -66,6 +55,25 @@ executable test-Hip
     , hip
     , massiv
     , massiv-io
+    , repa
+    , repa-algorithms
+    , slit-scan
+  default-language: Haskell2010
+
+executable slit-scan-bin
+  main-is: Main.hs
+  other-modules:
+      Paths_slit_scan
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , criterion
+    , hip
+    , optparse-applicative
+    , repa
+    , repa-algorithms
     , slit-scan
   default-language: Haskell2010
 

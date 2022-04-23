@@ -8,3 +8,5 @@ extra-deps:
  - SVGFonts-1.7.0.1
  - diagrams-postscript-1.5.1@
  - statestack-0.3.1@
+ - repa-algorithms-3.4.1.5
+ - optparse-applicative-0.17.0.0
