@@ -11,10 +11,37 @@ packages:
       sha256: d79395e6ec9caf1132a7e001f6fe9b8ebada31e0e52087a4a1a971e3f295a7f4
   original:
     hackage: hip-1.5.6.0
+- completed:
+    hackage: Chart-diagrams-1.9.3@sha256:63668daff044a79827b7edb265265a4a8237424abb8f808ad1fcbdb3d47e753d,1801
+    pantry-tree:
+      size: 934
+      sha256: a22d6af342382f81988881de23dfab36cc6491ba46edb8697066f5dbde237635
+  original:
+    hackage: Chart-diagrams-1.9.3
+- completed:
+    hackage: SVGFonts-1.7.0.1@sha256:1aac5ffd1a7c09317f92e9d31380d61eb96ce412b0dbd4e2d22c609c3d0be360,4039
+    pantry-tree:
+      size: 1836
+      sha256: 69e91027b97050991ce3a1f360a9a63ce90be8c3661a5c3db184536485e645cf
+  original:
+    hackage: SVGFonts-1.7.0.1
+- completed:
+    hackage: diagrams-postscript-1.5.1@sha256:f1bd02682105abd7e45f1e70ca24f8fe68b12340ebf026788d3349502b3faf71,2332
+    pantry-tree:
+      size: 480
+      sha256: 37cc817b4e25365995577f93e294e66df1ecac0bc4b606ebf1d7b32e9da6b95c
+  original:
+    hackage: diagrams-postscript-1.5.1
+- completed:
+    hackage: statestack-0.3.1@sha256:3ae02171e0a546efd9dcc9dae358e70f0bbd14be52297422381d00f085321682,1047
+    pantry-tree:
+      size: 273
+      sha256: ca87d3e94d894f421c8164428d48fad4a6ab0b5011e52e1287fa34051382faa3
+  original:
+    hackage: statestack-0.3.1
 snapshots:
 - completed:
     size: 617368
     url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/3.yaml
     sha256: a209d3455279ee76eb45f01f73bbb960ceaaa8dfad8891435384689df4dcb653
-  original:
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/3.yaml
+  original: lts-19.3
