@@ -60,7 +60,7 @@ executable bench-Hip
     , slit-scan
   default-language: Haskell2010
 
-executable slit-scan-bin
+executable slit-scan
   main-is: Main.hs
   other-modules:
       Paths_slit_scan

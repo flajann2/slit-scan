@@ -25,7 +25,7 @@ library:
     - optparse-applicative
 
 executables:
-  slit-scan-bin:
+  slit-scan:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

@@ -24,5 +24,8 @@ import Slit
 import Scan
          
 main :: IO ()
-main = commandline
+main = do
+  parms <- commandline
+  print parms
+  
 
