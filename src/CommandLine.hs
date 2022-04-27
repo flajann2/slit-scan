@@ -40,6 +40,7 @@ parms = Parms
                           <> help "number of scans to generate -- should be at least the width or height of the canvas"                      
                         )
         <*> option auto ( long "format"
+                          <> short 'f'
                           <> help "Output format (png, mp4) -- if png, output to directory"
                           <> showDefault
                           <> value "png"
