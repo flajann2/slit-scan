@@ -2,7 +2,7 @@
 
 module CommandLine
   ( commandline
-  , Parms
+  , Parms (..)
   ) where
 
 import Options.Applicative

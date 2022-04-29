@@ -15,6 +15,7 @@ import Data.Array.Repa.Stencil             as R
 import Data.Array.Repa.Stencil.Dim2        as R
 
 import Graphics.Image                      as I
+import Graphics.Image.IO                   as I
 import Graphics.Image.Interface            as I
 import Graphics.Image.Interface.Repa
 import Prelude                             as P
@@ -27,5 +28,11 @@ main :: IO ()
 main = do
   parms <- commandline
   print parms
+  i1 <- I.readImageRGB VU $ img1 parms
+  i2 <- I.readImageRGB VU $ img2 parms
+  print i1
+  print i2
+  let p = I.index i1 (10, 10)
+  print p
   
-
+  return ()

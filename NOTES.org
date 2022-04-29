@@ -1,0 +1,15 @@
+#+TITLE: Slit Scan Notes
+#+AUTHOR: Fred Mitchell
+#+SETUPFILE: /development/config/LaTeX-Org-setup.org
+
+* Slit Scan Notes
+** Disclaimer
+   These are my basic notes on this project, and are not
+   meant for general consumption, and therefore are not
+   gauranteed to be accurate or even useful for anyone 
+   other than myself. Please see the README.org or the
+   README.pdf for that.
+** Loading Images
+** Outputting the video
+** Future planned enhancements
+

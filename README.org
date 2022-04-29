@@ -102,4 +102,3 @@
 ** Advanced 3 -- 2 images, rotating sine slit
 ** Advanced 4 -- 2 images, arbitrary function for the slit and the 2 endpoints
 
-

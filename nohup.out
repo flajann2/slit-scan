@@ -1,0 +1,4 @@
+libpng warning: iCCP: known incorrect sRGB profile
+libpng warning: iCCP: known incorrect sRGB profile
+/home/alveric/.local/lib/python3.10/site-packages/streamdeck_ui/api.py:309: UserWarning: AL28J2C04162 has settings specified but is not seen. Likely unplugged!
+  warn(f"{deck_id} has settings specified but is not seen. Likely unplugged!")
