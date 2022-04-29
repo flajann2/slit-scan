@@ -15,49 +15,56 @@
 *** Generating the slit
     Firstly, we define the slit function as a function between 2 points.
      
-     #+BEGIN_EXPORT latex
-     \item $t$ is time, in seconds, and
-     \item $p_1, p_2$ are points defining tbe beginning and ending of the slit, and
-     \item $$
-      slit(p_1, p_2, \rho) = g(p_1, p_2, curve(\rho)) \Bigr| _{\rho=0} ^{\rho=1}
-     $$
-     \item where $$
+    #+BEGIN_EXPORT latex
+    \item $t$ is time, in seconds, and
+    \item $p_1, p_2$ are points defining tbe beginning and ending of the slit, and
+    \item $$
+     slit(p_1, p_2, \rho) = g(p_1, p_2, curve(\rho)) \Bigr| _{\rho=0} ^{\rho=1}
+    $$
+    \item where $$
      \begin{array}{l}
      p_1 = (x_1, y_1)\\
      p_2 = (x_2, y_2)
      \end{array}
-     $$
-     \item and $0 \ge x, y, \rho \ge 1$
-     #+END_EXPORT
+    $$
+    \item and $0 \ge x, y, \rho \ge 1$
+    #+END_EXPORT
 
-      where $curve(\rho)$ defines the shape of the slit. For the traditional case,
-      $curve(\rho)$ will be $0$, defining a straight line from $p_1$ to $p_2$. In other cases,
-      $curve(\rho)$ will result in pertubations in the $(p_1, p_2)$ line, perpendular to the
-      line itself.
-     
-      $\rho$ is the parametic for the slit. $x$ and $y$ represnts the idealized coordinates of the
-      image being scanned by the slit, which will be converted to the actual physical coordinates of
-      the pixels in the image, along with pixel averaging in the 3x3 or 5x5 square with the physical
-      coordinate being at the center.
+    where $curve(\rho)$ defines the shape of the slit. For the traditional case,
+    $curve(\rho)$ will be $0$, defining a straight line from $p_1$ to $p_2$. In other cases,
+    $curve(\rho)$ will result in pertubations in the $(p_1, p_2)$ line, perpendular to the
+    line itself.
+    
+    $\rho$ is the parametic for the slit. $x$ and $y$ represnts the idealized coordinates of the
+    image being scanned by the slit, which will be converted to the actual physical coordinates of
+    the pixels in the image, along with pixel averaging in the 3x3 or 5x5 square with the physical
+    coordinate being at the center.
 
     Secondly, we define the movement of the slit across an image in terms of time $t$ (in seconds):
 
-     #+BEGIN_EXPORT latex
-     $$
-     \begin{array}{l}
-         p_1{_t} = p_1(t)\\
-         p_2{_t} = p_2(t)
-     \end{array}
-     $$
-     #+END_EXPORT
+    #+BEGIN_EXPORT latex
+    $$
+    \begin{array}{l}
+        p_1{_t} = p_1(t)\\
+        p_2{_t} = p_2(t)
+    \end{array}
+    $$
+    #+END_EXPORT
      
-      Where said movement of $p_1$ and $p_2$ may be independent with each other, solely with $t$ as their
-      common parametric basis, but in most cases the "trivial" or traditional approach will be taken as the 
-      movenent being equivalent, basically to "scan" the image from one side to the other.
+    Where said movement of $p_1$ and $p_2$ may be independent with each other, solely with $t$ as their
+    common parametric basis, but in most cases the "trivial" or traditional approach will be taken as the 
+    movenent being equivalent, basically to "scan" the image from one side to the other.
 
     Thirdly, we define the compositor function. The compositor is responsible for compositing the time-varying
     contents of the slit unto the final canvas. Here, the canvas is bisected either horizontally or vertically
     by a straight-line slit, and with each time instant, the slit contents is forwarded away from the slit.
+
+    + The Hip library provides a way to navagate the image via
+      map functions. The imap provides (x,y) coordinates
+      of the pixels given. We can and will problably have
+      to do do some sort of lookup "table" on the coordinates
+      to perform the expected operation, but I need to 
+      give this more thought.
 
 *** The Compositor
     The compositor may "stretch" the contents of the slit as a function of the distance from the slit until it

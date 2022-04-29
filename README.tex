@@ -1,4 +1,4 @@
-% Created 2022-04-23 Sa 15:49
+% Created 2022-04-29 Fr 21:49
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,20 +69,20 @@
 
 
 \section{Fundamentals and Design}
-\label{sec:org1677bfe}
+\label{sec:orge63da78}
 \includegraphics[scale=0.4]{images/2001-example.png}
 \subsection{Introduction}
-\label{sec:org476b610}
+\label{sec:org88b0d0c}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:org7b2e127}
+\label{sec:org50badca}
 Here, we fully specify the mathematics involved with the slit-scan function.
 
 \subsubsection{Generating the slit}
-\label{sec:org8d12b2c}
+\label{sec:orgfade46a}
 Firstly, we define the slit function as a function between 2 points.
 
 \item $t$ is time, in seconds, and
@@ -91,10 +91,10 @@ Firstly, we define the slit function as a function between 2 points.
  slit(p_1, p_2, \rho) = g(p_1, p_2, curve(\rho)) \Bigr| _{\rho=0} ^{\rho=1}
 $$
 \item where $$
-\begin{array}{l}
-p_1 = (x_1, y_1)\\
-p_2 = (x_2, y_2)
-\end{array}
+ \begin{array}{l}
+ p_1 = (x_1, y_1)\\
+ p_2 = (x_2, y_2)
+ \end{array}
 $$
 \item and $0 \ge x, y, \rho \ge 1$
 
@@ -125,8 +125,17 @@ Thirdly, we define the compositor function. The compositor is responsible for co
 contents of the slit unto the final canvas. Here, the canvas is bisected either horizontally or vertically
 by a straight-line slit, and with each time instant, the slit contents is forwarded away from the slit.
 
+\begin{itemize}
+\item The Hip library provides a way to navagate the image via
+map functions. The imap provides (x,y) coordinates
+of the pixels given. We can and will problably have
+to do do some sort of lookup "table" on the coordinates
+to perform the expected operation, but I need to 
+give this more thought.
+\end{itemize}
+
 \subsubsection{The Compositor}
-\label{sec:org5fa57a2}
+\label{sec:orga8b8d2f}
 The compositor may "stretch" the contents of the slit as a function of the distance from the slit until it
 reaches the end of the canvass.
 
@@ -153,22 +162,22 @@ $$
 $$
 
 \section{General Documentation and Use of Slit Scan}
-\label{sec:org2b5babf}
+\label{sec:org48f2061}
 This covers the usage from the command-line. Rather than go into extensive documentation
 on the command-line commands and options (the program itself provides this), we shall
 give some helpul examples.
 \subsection{Simple case -- one image, simple vertical slit}
-\label{sec:orge102699}
+\label{sec:orgfb5f209}
 slit-scan --i1 flower.jpg --format png --out film/
 
 \subsection{Typical -- 2 images simple vertical and horizontal slits}
-\label{sec:orgd9df231}
+\label{sec:orgbc1f3bf}
 \subsection{Advanced 1 -- 2 images, staight line rotating slit}
-\label{sec:org1383a86}
+\label{sec:org6eec87b}
 \subsection{Advanced 2 -- 2 images, sine slit}
-\label{sec:org3269564}
+\label{sec:org1d78aa1}
 \subsection{Advanced 3 -- 2 images, rotating sine slit}
-\label{sec:org0e61387}
+\label{sec:org11ac4c1}
 \subsection{Advanced 4 -- 2 images, arbitrary function for the slit and the 2 endpoints}
-\label{sec:org889da5c}
+\label{sec:orgac753e6}
 \end{document}

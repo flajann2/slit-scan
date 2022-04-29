@@ -10,6 +10,18 @@
    other than myself. Please see the README.org or the
    README.pdf for that.
 ** Loading Images
+   + We could resize one of the images to be the 
+     exact same size/dimensions of the other. Would simplify 
+     the math quite a bit. But might cause some wierdness
+     in some circumstances. Of course, the user
+     can correct the issue and make sure both images
+     are the same dimensions, etc.
+   + Trying to determine how to transverse the images 
+     slit-wise. In mapping the images, we are simply
+     given the x,y coordinates. Of course, we can
+     work backwards from there to determine the "slit",
+     and should cover this in the math description in the README.
+
+
 ** Outputting the video
 ** Future planned enhancements
-
