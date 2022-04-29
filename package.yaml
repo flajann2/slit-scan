@@ -23,6 +23,11 @@ library:
   source-dirs: src
   dependencies:
     - optparse-applicative
+    - hip
+    - repa
+    - repa-algorithms
+    - criterion
+
 
 executables:
   slit-scan:
