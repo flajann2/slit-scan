@@ -1,6 +1,6 @@
 -- Slit of an image
 module Slit 
-    ( Slit (..)
+    ( --Slit (..)
     ) where
 
 -- Not all of the following are needed here! FIX
