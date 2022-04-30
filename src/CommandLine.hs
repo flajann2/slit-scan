@@ -12,9 +12,12 @@ data Parms = Parms
   { img1       :: String
   , img2       :: String
   , vert       :: Bool
+  , preview    :: Bool
   , scans      :: Int
+  , expand     :: Double
   , format     :: String
   , out        :: String
+  , viewer     :: String
   } deriving Show
 
 parms :: Parser Parms
@@ -30,14 +33,26 @@ parms = Parms
                         <> help "Second image to scan"
                       )
         <*> switch ( long "vert"
-                     <> short 'V'
+                     <> short 'r'
                      <> help "Do vertical slit instead of horizontal"
+                   )
+        <*> switch ( long "preview"
+                     <> short 'w'
+                     <> help "View output image/video with viewer"
                    )
         <*> option auto ( long "scans"
                           <> short 's'
                           <> value 10000
                           <> showDefault
+                          <> metavar "NUMSCANS"
                           <> help "number of scans to generate -- should be at least the width or height of the canvas"                      
+                        )
+        <*> option auto ( long "expand"
+                          <> short 'e'
+                          <> value 5.0
+                          <> showDefault
+                          <> metavar "FACTOR"
+                          <> help "Expansion factor -- 1 or greater. 1 is no expansion."                      
                         )
         <*> option auto ( long "format"
                           <> short 'f'
@@ -50,6 +65,14 @@ parms = Parms
                         <> short 'o'
                         <> help "Output fire or directory"
                         <> metavar "OUTPUT"
+                        <> showDefault
+                        <> value "/tmp"
+                      )
+        <*> strOption ( long "viewer"
+                        <> short 'V'
+                        <> help "program to view the output"
+                        <> metavar "VIEWER"
+                        <> value "/usr/bin/fim"
                       )
 
 commandline :: IO Parms
