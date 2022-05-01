@@ -79,6 +79,7 @@ executable slit-scan
     , repa
     , repa-algorithms
     , slit-scan
+    , unagi-chan
   default-language: Haskell2010
 
 test-suite slit-scan-test

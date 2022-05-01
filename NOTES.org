@@ -21,6 +21,13 @@
      given the x,y coordinates. Of course, we can
      work backwards from there to determine the "slit",
      and should cover this in the math description in the README.
+*** Pipelining
+    We can manipulate the source images to be the same size, and rotate
+    them to do a horizontal scan. For 2 images, we create each canvas
+    seperately, then combine them during the compositing phase.
+
+    Indeed, we shall take a pipelining approach, so we can run all of this
+    in parallel to utilize all the available cores.
 
 
 ** Outputting the video

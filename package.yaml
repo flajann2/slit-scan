@@ -44,6 +44,7 @@ executables:
       - repa
       - repa-algorithms
       - criterion
+      - unagi-chan
 
   bench-Hip:
     main:                bench-Hip.hs
