@@ -28,7 +28,23 @@
 
     Indeed, we shall take a pipelining approach, so we can run all of this
     in parallel to utilize all the available cores.
+** Scanning the images
+   It just occured to me that we should scan from the basis of the canvas, since
+   that is the target, and simply do the math transforms to the source images.
+   This way, we can handle blending / dithering / smoothing between pixels on the
+   destination image (canvas) very naturally.
 
+   In fact, we can utilize the normal mapping function of the destination, and 
+   simply address the pixels via the index fuction from the sources.
+
+*** Orign of Graphics.Image images
+    The origin is in the upper-left corner and descends down and right.
+    This is typical of computer graphics going all the way back to the raster scan
+    days which almost invariably stated from the upper left and scanned to the
+    right and down.
+
+    From a mathematical perspective, I have always found this annoying, but for
+    purposes of keeping things "simple", I will embrace that in my math here.
 
 ** Outputting the video
 ** Future planned enhancements

@@ -96,6 +96,10 @@
      $$
      #+END_EXPORT
 
+*** Actual implementation of the mathematics
+    We shall do our scans from the canvas, and map that to the two source images,
+    because it simplifies things with regards to smoothing between pixels, etc.
+
 * General Documentation and Use of Slit Scan
   This covers the usage from the command-line. Rather than go into extensive documentation
   on the command-line commands and options (the program itself provides this), we shall

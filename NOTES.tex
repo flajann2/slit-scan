@@ -1,4 +1,4 @@
-% Created 2022-04-29 Fr 21:49
+% Created 2022-05-05 Thu 11:59
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,16 +69,16 @@
 
 
 \section{Slit Scan Notes}
-\label{sec:org3a63403}
+\label{sec:org742cecd}
 \subsection{Disclaimer}
-\label{sec:orge4d2be4}
+\label{sec:org74cfa3a}
 These are my basic notes on this project, and are not
 meant for general consumption, and therefore are not
 gauranteed to be accurate or even useful for anyone 
 other than myself. Please see the README.org or the
 README.pdf for that.
 \subsection{Loading Images}
-\label{sec:org83330a2}
+\label{sec:org3252136}
 \begin{itemize}
 \item We could resize one of the images to be the 
 exact same size/dimensions of the other. Would simplify 
@@ -92,10 +92,36 @@ given the x,y coordinates. Of course, we can
 work backwards from there to determine the "slit",
 and should cover this in the math description in the README.
 \end{itemize}
+\subsubsection{Pipelining}
+\label{sec:org3c5c10f}
+We can manipulate the source images to be the same size, and rotate
+them to do a horizontal scan. For 2 images, we create each canvas
+seperately, then combine them during the compositing phase.
 
+Indeed, we shall take a pipelining approach, so we can run all of this
+in parallel to utilize all the available cores.
+\subsection{Scanning the images}
+\label{sec:org3760f5b}
+It just occured to me that we should scan from the basis of the canvas, since
+that is the target, and simply do the math transforms to the source images.
+This way, we can handle blending / dithering / smoothing between pixels on the
+destination image (canvas) very naturally.
+
+In fact, we can utilize the normal mapping function of the destination, and 
+simply address the pixels via the index fuction from the sources.
+
+\subsubsection{Orign of Graphics.Image images}
+\label{sec:orgdf72c00}
+The origin is in the upper-left corner and descends down and right.
+This is typical of computer graphics going all the way back to the raster scan
+days which almost invariably stated from the upper left and scanned to the
+right and down.
+
+From a mathematical perspective, I have always found this annoying, but for
+purposes of keeping things "simple", I will embrace that in my math here.
 
 \subsection{Outputting the video}
-\label{sec:orgdd0bc43}
+\label{sec:org6a17048}
 \subsection{Future planned enhancements}
-\label{sec:orgcbba795}
+\label{sec:org507cba6}
 \end{document}

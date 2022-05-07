@@ -27,6 +27,7 @@ library:
     - repa
     - repa-algorithms
     - criterion
+    - one-liner
 
 
 executables:

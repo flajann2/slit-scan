@@ -9,15 +9,17 @@ import Options.Applicative
 import Data.Semigroup ((<>))
 
 data Parms = Parms
-  { img1       :: String
-  , img2       :: String
-  , vert       :: Bool
-  , preview    :: Bool
-  , scans      :: Int
-  , expand     :: Double
-  , format     :: String
-  , out        :: String
-  , viewer     :: String
+  { img1          :: String
+  , img2          :: String
+  , canvas_width  :: Int
+  , canvas_height :: Int
+  , vert          :: Bool
+  , preview       :: Bool
+  , scans         :: Int
+  , expand        :: Double
+  , format        :: String
+  , out           :: String
+  , viewer        :: String
   } deriving Show
 
 parms :: Parser Parms
@@ -32,6 +34,20 @@ parms = Parms
                         <> metavar "SOURCE2"
                         <> help "Second image to scan"
                       )
+        <*> option auto ( long "canwidth"
+                        <> short 'W'
+                        <> metavar "WIDTH"
+                        <> help "Canvas (horizontal) Width"
+                        <> value 1280
+                        <> showDefault
+                        )
+        <*> option auto ( long "canheight"
+                        <> short 'H'
+                        <> metavar "HEIGHT"
+                        <> help "Canvas (vertical) Height"
+                        <> value 1024
+                        <> showDefault
+                        )
         <*> switch ( long "vert"
                      <> short 'r'
                      <> help "Do vertical slit instead of horizontal"
