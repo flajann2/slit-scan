@@ -38,6 +38,7 @@ library
       base >=4.7 && <5
     , criterion
     , hip
+    , hmatrix
     , one-liner
     , optparse-applicative
     , repa

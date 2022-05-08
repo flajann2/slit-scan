@@ -29,7 +29,8 @@ import Graphics.Image.Interface            as I
 import Graphics.Image.Interface.Repa
 import Prelude                             as P
 
-import Generics.OneLiner
+import Numeric.LinearAlgebra               as N
+import Numeric.LinearAlgebra.Data          as N
 
 type ImageVRD = I.Image VU RGB Double
 newtype NPoint = NPoint (Double, Double) deriving (Show, Eq)
@@ -37,9 +38,12 @@ newtype PPoint = PPoint (Int, Int)       deriving (Show, Eq)
 
 -- convert a Physical point to a Normalised point
 toN :: PPoint -> ImageVRD -> NPoint
-toN (PPoint (x,y)) im = NPoint(fromIntegral x / fromIntegral (rows im)
-                                     , fromIntegral y / fromIntegral (cols im))
+toN (PPoint (x,y)) im = NPoint( fromIntegral x / fromIntegral (I.rows im)
+                              , fromIntegral y / fromIntegral (I.cols im))
  
 -- convert a normalised point to a physical point
 toP :: NPoint -> ImageVRD -> PPoint 
 toP = undefined
+
+-- transform a normal canvas coordinate to a normal source coordinate
+

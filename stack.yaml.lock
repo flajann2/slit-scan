@@ -60,6 +60,13 @@ packages:
       sha256: baaa2caa4c9d8dfb7ebfccb5f0dbbd2ac539ec6f523b2405be7db589b2245e7c
   original:
     hackage: unagi-chan-0.4.1.4
+- completed:
+    hackage: hmatrix-0.20.2@sha256:97fc93bbc302b922fd3df1bb90cc70839bb22f4ac0db53b2838fd5d616024b79,5205
+    pantry-tree:
+      size: 2228
+      sha256: fc67b9fbf478100bdcc2080e49a9788e83c335f71c49fc290bc5be3f1d64eab9
+  original:
+    hackage: hmatrix-0.20.2
 snapshots:
 - completed:
     size: 618876
