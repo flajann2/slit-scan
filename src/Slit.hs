@@ -69,13 +69,17 @@ class TransformMatrix p a where
 instance TransformMatrix Parms Double  where
   m11 p = (1 + m31 p) * cx p - ax p
   m12 p = (1 + m32 p) * bx p - ax p
-  m13 p = undefined
+  m13 p = ax p
   
   m21 p = (1 + m31 p) * cy p - ay p
   m22 p = (1 + m32 p) * by p - ay p
-  m23 p = undefined 
+  m23 p = ay p 
   
-  m31 p = undefined
-  m32 p = undefined
-  m33 p = undefined
+  m31 p =   ((ax p - cx p) * (by p - dy p) - (ay p - cy p) * (bx p - dx p))
+          / ((by p - dy p) * (cx p - dx p) - (bx p - dx p) * (cy p - dy p))
+
+  m32 p =   ((ay p - by p) * (cx p - dx p) - (ax p - bx p) * (cy p - dy p))
+          / ((by p - dy p) * (cx p - dx p) - (bx p - dx p) * (cy p - dy p))
+ 
+  m33 p = 1
 
