@@ -1,7 +1,7 @@
 -- Slit of an image
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 
 module Slit 
     ( toP
@@ -11,6 +11,9 @@ module Slit
     , ImageVRD
     ) where
 
+
+import CommandLine(Parms(..))
+  
 -- Not all of the following are needed here! FIX
 import Control.Applicative
 
@@ -45,5 +48,34 @@ toN (PPoint (x,y)) im = NPoint( fromIntegral x / fromIntegral (I.rows im)
 toP :: NPoint -> ImageVRD -> PPoint 
 toP = undefined
 
--- transform a normal canvas coordinate to a normal source coordinate
+-- transformation equations
+
+class SquareArrows p a where
+  ax, ay, bx, by, cx, cy, dx, dy :: p -> a
+
+instance SquareArrows Parms Double where
+  ax p = 0
+  ay p = 0
+  bx p = 0
+  by p = 1
+  cx p = 1
+  cy p = - expand p
+  dx p = 1
+  dy p = expand p
+   
+class TransformMatrix p a where
+  m11, m12, m13, m21, m22, m23, m31, m32, m33 :: p -> a
+
+instance TransformMatrix Parms Double  where
+  m11 p = (1 + m31 p) * cx p - ax p
+  m12 p = (1 + m32 p) * bx p - ax p
+  m13 p = undefined
+  
+  m21 p = (1 + m31 p) * cy p - ay p
+  m22 p = (1 + m32 p) * by p - ay p
+  m23 p = undefined 
+  
+  m31 p = undefined
+  m32 p = undefined
+  m33 p = undefined
 

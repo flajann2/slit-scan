@@ -100,10 +100,22 @@
     We shall do our scans from the canvas, and map that to the two source images,
     because it simplifies things with regards to smoothing between pixels, etc.
 
-    The following was taken from:
-    https://blog.plantingcode.net/2d-only-perspective-transform/
+**** Matrix transforms and the math coding conventions
 
-    #+BEGIN_EXPORT latex
+     + In the code, $A_x$, $A_y$, ..., $D_x$, $D_y$ shall be represented by $ax$, $ay$...,
+       and likewise, $M_{11}$, $M_{12}$, ..., shall be represented by $m11$, $m12$...
+
+     + We shall designate the former as "square arrows", and the latter, of course,
+       are the parameters in the transformation matrix.
+
+     + Note that our origin is in the upper-left corner, and positive moves to the right
+       and down, for the x any y axis, respectively. This reflects the normal way
+       computer graphics are always implemented. 
+
+     The following was taken from:
+     https://blog.plantingcode.net/2d-only-perspective-transform/
+
+     #+BEGIN_EXPORT latex
     To make things easier, the solution maps a unit square to the
     square defined by the pair of vectors. In other words:
 
@@ -119,12 +131,13 @@
     start calculating the matrix which will take any 2D point in
     unit coordinates and convert it to projected coordinates.
 
+    \begin{align}
     \left[ { \begin{array}{ccc}
     M_{11} & M_{12} & M_{13} \\
     M_{21} & M_{22} & M_{23} \\
     M_{31} & M_{32} & 1
     \end{array} } \right]
-
+    \end{align}
 
     With the mapping to point \(A\) being straightforward, two 
     entries can already be solved for (subscripts \(x\) and \(y\) are for the 2D components):

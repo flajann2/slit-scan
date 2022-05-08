@@ -1,4 +1,4 @@
-% Created 2022-05-08 Sun 13:41
+% Created 2022-05-08 Sun 19:54
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,20 +69,20 @@
 
 
 \section{Fundamentals and Design}
-\label{sec:org7d7524a}
+\label{sec:orgc51bffb}
 \includegraphics[scale=0.4]{images/2001-example.png}
 \subsection{Introduction}
-\label{sec:org546dfff}
+\label{sec:orgf66daab}
 Slit-Scan is the command-line tool that allow you to create slit-scans similar to
 the star-gate sequences in 2001: A Space Odyssey. The idea here is to add a lot of flexibility
 to allow you to acheive results even beyond what was acheived in what is arguably the greatest
 Science Fiction film of all time.
 \subsection{Mathematics}
-\label{sec:org4017035}
+\label{sec:orgd1799a9}
 Here, we fully specify the mathematics involved with the slit-scan function.
 
 \subsubsection{Generating the slit}
-\label{sec:org4ccec46}
+\label{sec:org6dc14d3}
 Firstly, we define the slit function as a function between 2 points.
 
 \item $t$ is time, in seconds, and
@@ -135,7 +135,7 @@ give this more thought.
 \end{itemize}
 
 \subsubsection{The Compositor}
-\label{sec:org105b5ce}
+\label{sec:org2cbae4a}
 The compositor may "stretch" the contents of the slit as a function of the distance from the slit until it
 reaches the end of the canvass.
 
@@ -162,9 +162,25 @@ $$
 $$
 
 \subsubsection{Actual implementation of the mathematics}
-\label{sec:org4785bab}
+\label{sec:orgdb03c26}
 We shall do our scans from the canvas, and map that to the two source images,
 because it simplifies things with regards to smoothing between pixels, etc.
+
+\begin{enumerate}
+\item Matrix transforms and the math coding conventions
+\label{sec:orgede2861}
+
+\begin{itemize}
+\item In the code, \(A_x\), \(A_y\), \ldots{}, \(D_x\), \(D_y\) shall be represented by \(ax\), \(ay\)\ldots{},
+and likewise, \(M_{11}\), \(M_{12}\), \ldots{}, shall be represented by \(m11\), \(m12\)\ldots{}
+
+\item We shall designate the former as "square arrows", and the latter, of course,
+are the parameters in the transformation matrix.
+
+\item Note that our origin is in the upper-left corner, and positive moves to the right
+and down, for the x any y axis, respectively. This reflects the normal way
+computer graphics are always implemented.
+\end{itemize}
 
 The following was taken from:
 \url{https://blog.plantingcode.net/2d-only-perspective-transform/}
@@ -184,12 +200,13 @@ Using the above notation, it is possible to
 start calculating the matrix which will take any 2D point in
 unit coordinates and convert it to projected coordinates.
 
+\begin{align}
 \left[ { \begin{array}{ccc}
 M_{11} & M_{12} & M_{13} \\
 M_{21} & M_{22} & M_{23} \\
 M_{31} & M_{32} & 1
 \end{array} } \right]
-
+\end{align}
 
 With the mapping to point \(A\) being straightforward, two 
 entries can already be solved for (subscripts \(x\) and \(y\) are for the 2D components):
@@ -327,24 +344,25 @@ It is important to divide by the resulting \(z\) term to normalize the resulting
 coordinate just as you would divide by the resulting \(w\) term for a 
 3D perspective transformation.
 $$
+\end{enumerate}
 
 \section{General Documentation and Use of Slit Scan}
-\label{sec:org54ac2eb}
+\label{sec:org1a85532}
 This covers the usage from the command-line. Rather than go into extensive documentation
 on the command-line commands and options (the program itself provides this), we shall
 give some helpul examples.
 \subsection{Simple case -- one image, simple vertical slit}
-\label{sec:orgb1be918}
+\label{sec:org3b81f99}
 slit-scan --i1 flower.jpg --format png --out film/
 
 \subsection{Typical -- 2 images simple vertical and horizontal slits}
-\label{sec:org7edd5f5}
+\label{sec:orgf1f2667}
 \subsection{Advanced 1 -- 2 images, staight line rotating slit}
-\label{sec:org740c167}
+\label{sec:orgccbf377}
 \subsection{Advanced 2 -- 2 images, sine slit}
-\label{sec:org52d1b9f}
+\label{sec:org927fc8e}
 \subsection{Advanced 3 -- 2 images, rotating sine slit}
-\label{sec:orgf1728ea}
+\label{sec:orge9d3c1d}
 \subsection{Advanced 4 -- 2 images, arbitrary function for the slit and the 2 endpoints}
-\label{sec:org35ad956}
+\label{sec:org40844ec}
 \end{document}
