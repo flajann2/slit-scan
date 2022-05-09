@@ -46,7 +46,8 @@ toN (PPoint (x,y)) im = NPoint( fromIntegral x / fromIntegral (I.rows im)
  
 -- convert a normalised point to a physical point
 toP :: NPoint -> ImageVRD -> PPoint 
-toP = undefined
+toP (NPoint (x,y)) im = PPoint( round (x * fromIntegral (I.rows im))
+                              , round (y * fromIntegral (I.cols im)))
 
 -- transformation equations
 
