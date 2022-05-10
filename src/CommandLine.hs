@@ -3,6 +3,7 @@
 module CommandLine
   ( commandline
   , Parms (..)
+  , sampleParms
   ) where
 
 import Options.Applicative
@@ -22,6 +23,20 @@ data Parms = Parms
   , viewer        :: String
   } deriving Show
 
+--TODO: this is mainly for testing. delete this in production
+sampleParms = Parms { img1 = ""
+                    , img2 = ""
+                    , canvas_width = 1024
+                    , canvas_height = 1024
+                    , vert = True
+                    , preview = True
+                    , scans = 1000
+                    , expand = 3
+                    , format = "png"
+                    , out = "./"
+                    , viewer = "fim"
+                    }
+  
 parms :: Parser Parms
 parms = Parms
         <$> strOption ( long "img1"

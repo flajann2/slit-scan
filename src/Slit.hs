@@ -9,16 +9,21 @@ module Slit
     , NPoint
     , PPoint
     , ImageVRD
+    , MatrixD
+    , slitMatrix
     ) where
 
 
-import CommandLine(Parms(..))
+import CommandLine( Parms(..)
+                  , sampleParms
+                  )
   
 -- Not all of the following are needed here! FIX
 import Control.Applicative
 
 import Control.Monad
 import Criterion.Main
+
 import Data.Array.Repa                     as R
 import Data.Array.Repa.Algorithms.Convolve as R
 import Data.Array.Repa.Eval                as R
@@ -29,7 +34,8 @@ import Data.Array.Repa.Stencil.Dim2        as R
 import Graphics.Image                      as I
 import Graphics.Image.IO                   as I
 import Graphics.Image.Interface            as I
-import Graphics.Image.Interface.Repa
+import Graphics.Image.Interface.Repa       as I
+
 import Prelude                             as P
 
 import Numeric.LinearAlgebra               as N
@@ -83,4 +89,12 @@ instance TransformMatrix Parms Double  where
           / ((by p - dy p) * (cx p - dx p) - (bx p - dx p) * (cy p - dy p))
  
   m33 p = 1
+
+type MatrixD = Matrix Double
+
+slitMatrix :: Parms -> MatrixD
+slitMatrix p = (3><3) [ m11 p, m12 p, m13 p
+                      , m21 p, m22 p, m23 p
+                      , m31 p, m32 p, m33 p
+                      ]
 
