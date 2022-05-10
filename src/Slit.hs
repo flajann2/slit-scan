@@ -1,4 +1,4 @@
--- Slit of an image
+-- Here we handle most of the math behind doing slits of images
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -12,7 +12,6 @@ module Slit
     , MatrixD
     , slitMatrix
     ) where
-
 
 import CommandLine( Parms(..)
                   , sampleParms

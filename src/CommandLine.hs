@@ -24,8 +24,8 @@ data Parms = Parms
   } deriving Show
 
 --TODO: this is mainly for testing. delete this in production
-sampleParms = Parms { img1 = ""
-                    , img2 = ""
+sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
+                    , img2 = "images/972177.png"
                     , canvas_width = 1024
                     , canvas_height = 1024
                     , vert = True

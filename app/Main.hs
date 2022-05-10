@@ -20,7 +20,6 @@ import Graphics.Image.Interface.Repa
 import Prelude                             as P
 
 import CommandLine
-import Slit
 import Scan
          
 main :: IO ()
@@ -33,5 +32,4 @@ main = do
   print i2
   let p = I.index i1 (10, 10)
   print p
-  
-  return ()
+  scanFromParms parms  
