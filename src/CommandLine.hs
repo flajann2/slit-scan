@@ -10,27 +10,31 @@ import Options.Applicative
 import Data.Semigroup ((<>))
 
 data Parms = Parms
-  { img1          :: String
-  , img2          :: String
-  , canvas_width  :: Int
-  , canvas_height :: Int
-  , vert          :: Bool
-  , preview       :: Bool
-  , scans         :: Int
-  , expand        :: Double
-  , format        :: String
-  , out           :: String
-  , viewer        :: String
+  { img1           :: String
+  , img2           :: String
+  , canvas_width   :: Int
+  , canvas_height  :: Int
+  , vert           :: Bool
+  , preview        :: Bool
+  , scans          :: Int
+  , scans_per_sec  :: Double
+  , frames_per_sec :: Int
+  , expand         :: Double
+  , format         :: String
+  , out            :: String
+  , viewer         :: String
   } deriving Show
 
 --TODO: this is mainly for testing. delete this in production
 sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , img2 = "images/972177.png"
-                    , canvas_width = 1024
+                    , canvas_width  = 1024
                     , canvas_height = 1024
                     , vert = True
                     , preview = True
                     , scans = 1000
+                    , scans_per_sec = 60
+                    , frames_per_sec = 30
                     , expand = 3
                     , format = "png"
                     , out = "./"
@@ -77,6 +81,20 @@ parms = Parms
                           <> showDefault
                           <> metavar "NUMSCANS"
                           <> help "number of scans to generate -- should be at least the width or height of the canvas"                      
+                        )
+        <*> option auto ( long "scanspersec"
+                        <> short 't'
+                        <> value 60
+                        <> showDefault
+                        <> metavar "SPS"
+                        <> help "Number of scans per second"
+                        )
+        <*> option auto ( long "framespersec"
+                        <> short 'm'
+                        <> value 30
+                        <> metavar "FPS"
+                        <> showDefault
+                        <> help "Number of frames per second to generate"
                         )
         <*> option auto ( long "expand"
                           <> short 'e'

@@ -45,6 +45,11 @@
 
     From a mathematical perspective, I have always found this annoying, but for
     purposes of keeping things "simple", I will embrace that in my math here.
+*** Scan Direction
+    On the source images, we will initally scan from right to left, meaning that
+    conceptually the source image is moving from left to right. Time t is a Double
+    parameter, even though a single tick of t represents one pixel.
 
+    Scan speed 
 ** Outputting the video
 ** Future planned enhancements
