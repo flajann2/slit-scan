@@ -9,6 +9,7 @@ module Slit
     , NPoint
     , PPoint
     , ImageVRD
+    , PixelVRD
     , MatrixD
     , slitMatrix
     ) where
@@ -41,6 +42,8 @@ import Numeric.LinearAlgebra               as N
 import Numeric.LinearAlgebra.Data          as N
 
 type ImageVRD = I.Image VU RGB Double
+type PixelVRD = I.Pixel RGB Double
+
 newtype NPoint = NPoint (Double, Double) deriving (Show, Eq)
 newtype PPoint = PPoint (Int, Int)       deriving (Show, Eq)
 
