@@ -37,6 +37,8 @@ library
   build-depends:
       base >=4.7 && <5
     , criterion
+    , filepath
+    , formatting
     , hip
     , hmatrix
     , one-liner

@@ -112,10 +112,10 @@ parms = Parms
                         )
         <*> strOption ( long "output"
                         <> short 'o'
-                        <> help "Output fire or directory"
+                        <> help "Output path prefix"
                         <> metavar "OUTPUT"
                         <> showDefault
-                        <> value "/tmp"
+                        <> value "./ssn-"
                       )
         <*> strOption ( long "viewer"
                         <> short 'V'

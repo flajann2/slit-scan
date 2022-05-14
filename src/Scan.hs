@@ -1,4 +1,5 @@
 -- Here we do the actual scans
+{-# LANGUAGE OverloadedStrings #-}
 
 module Scan
   ( scanFromParms
@@ -21,8 +22,16 @@ import Data.Array.Repa.Stencil.Dim2        as R
 import Graphics.Image                      as I
 import Graphics.Image.IO                   as I
 import Graphics.Image.Interface            as I
-import Graphics.Image.Interface.Repa
+import Graphics.Image.Interface.Repa       as I
+
+import System.FilePath.Posix               as F
+
 import Prelude                             as P
+
+import Formatting
+import qualified Data.Text                 as T
+import qualified Data.Text.Lazy            as TL
+import qualified Data.Text.Lazy.Builder    as TLB
 
 data CanvasSide = LeftSide
                 | RightSide

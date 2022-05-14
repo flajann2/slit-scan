@@ -29,6 +29,8 @@ library:
     - criterion
     - one-liner
     - hmatrix
+    - formatting
+    - filepath
 
 executables:
   slit-scan:
