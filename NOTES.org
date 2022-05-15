@@ -50,7 +50,9 @@
     conceptually the source image is moving from left to right. Time t is a Double
     parameter, even though a single tick of t represents one pixel.
 
-    Scan speed 
+    Scan speed is based on scans per second, which will be somewhat related to 
+    frames per second, but not perfectly.
+    
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where
    a 4-digit (or 5-digit?) sequence number shall be appened,

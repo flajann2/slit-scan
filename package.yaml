@@ -22,8 +22,6 @@ dependencies:
 library:
   source-dirs: src
   ghc-options:
-    - -threaded
-    - -with-rtsopts=-N
     - -O2
     #- -Wall
   dependencies:

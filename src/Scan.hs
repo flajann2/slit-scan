@@ -55,6 +55,20 @@ fromMaybePixel :: Maybe PixelVRD -> PixelVRD
 fromMaybePixel Nothing  = PixelRGB 0 0 0
 fromMaybePixel (Just x) = x
 
+-- We create a list of that which shall be evaluated
+data Frame = Frame { fi :: Int         -- frame index
+                   , ti :: Double      -- time index, based on the number of frames per second
+                   , si :: Int         -- scan index, always increasing
+                   , imgfile :: String -- pathname to the image frame that will be written
+                   } deriving Show
+
+listOfFrames :: Parms -> [Frame]
+listOfFrames p = [Frame { fi = i
+                        , ti = fromIntegral i / frames_per_sec p
+                        , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p 
+                        , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
+                        } | i <- [0 .. frames p]]
+
 scanOneFrame :: Parms -> Double -> ImageVRD -> ImageVRD -> IO ImageVRD
 scanOneFrame p t i1 i2 = do
   let icanvas = makeImage (canvas_height p, canvas_width p)
@@ -68,18 +82,6 @@ scanOneFrame p t i1 i2 = do
       | side == BottomSide = I.maybeIndex i2 (x, y)
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
-
--- We create a list of that which shall be evaluated
-data Frame = Frame { fi :: Int         -- frame index
-                   , ti :: Double      -- time index, based on the number of frames per second
-                   , imgfile :: String -- pathname to the image frame that will be written
-                   } deriving Show
-
-listOfFrames :: Parms -> [Frame]
-listOfFrames p = [Frame { fi = i
-                        , ti = fromIntegral i / frames_per_sec p
-                        , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
-                        } | i <- [0 .. frames p]]
 
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
