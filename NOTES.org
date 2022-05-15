@@ -52,6 +52,18 @@
 
     Scan speed is based on scans per second, which will be somewhat related to 
     frames per second, but not perfectly.
+
+*** Scan Index (si)
+    The scan index roughly relates to the frame index (fi) but is based
+    on the number of scans per second. On the first frame, si will be less than 
+    the actual scan width of both the source and canvas. This will eventually change,
+    where the scan index will exceed the scan width of the source, in which
+    case -- for now, it will wrap around.
+
+    For the canvas, it will simply go to the end and stop.
+
+    In actuality, I don't think there's anything special we need to do for the
+    canvas. It's all on the source, and handling the wrap-around correctly.
     
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where

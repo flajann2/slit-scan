@@ -11,6 +11,7 @@ import Slit
 import CommandLine(Parms(..))
 
 import Control.Monad
+import Control.Parallel.Strategies
 import Criterion.Main
 import qualified Data.Array.Repa           as R
 import Data.Array.Repa.Algorithms.Convolve as R
@@ -59,29 +60,47 @@ fromMaybePixel (Just x) = x
 data Frame = Frame { fi :: Int         -- frame index
                    , ti :: Double      -- time index, based on the number of frames per second
                    , si :: Int         -- scan index, always increasing
+                   , simg1 :: ImageVRD -- source image 1
+                   , simg2 :: ImageVRD -- source image 2
                    , imgfile :: String -- pathname to the image frame that will be written
                    } deriving Show
 
-listOfFrames :: Parms -> [Frame]
-listOfFrames p = [Frame { fi = i
-                        , ti = fromIntegral i / frames_per_sec p
-                        , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p 
-                        , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
-                        } | i <- [0 .. frames p]]
+listOfFrames :: Parms -> ImageVRD -> ImageVRD -> [Frame]
+listOfFrames p i1 i2 = [Frame { fi = i
+                              , ti = fromIntegral i / frames_per_sec p
+                              , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p
+                              , simg1 = i1
+                              , simg2 = i2
+                              , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
+                              } | i <- [0 .. frames p]]
 
-scanOneFrame :: Parms -> Double -> ImageVRD -> ImageVRD -> IO ImageVRD
-scanOneFrame p t i1 i2 = do
+scanOneFrame :: Parms -> Frame -> IO ImageVRD
+scanOneFrame p f = do
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y)
   return icanvas
   where
     pixelScanner x y
-      | side == LeftSide   = I.maybeIndex i1 (x, y)
-      | side == RightSide  = I.maybeIndex i2 (x, y)
-      | side == TopSide    = I.maybeIndex i1 (x, y)
-      | side == BottomSide = I.maybeIndex i2 (x, y)
+      | side == LeftSide   = I.maybeIndex (simg1 f) (x, y)
+      | side == RightSide  = I.maybeIndex (simg2 f) (x, y)
+      | side == TopSide    = I.maybeIndex (simg1 f) (x, y)
+      | side == BottomSide = I.maybeIndex (simg2 f) (x, y)
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
+
+writeOneFrame :: Parms -> Frame -> IO ()
+writeOneFrame p f = do
+  can <- scanOneFrame p f
+  writeImage (imgfile f) can
+  print $ imgfile f
+
+writeFrames :: Parms -> [Frame] -> IO ()
+writeFrames p [] = do
+  return ()
+writeFrames p (f:fs) = do
+  writeOneFrame p f
+  writeFrames p fs
+  
 
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
@@ -91,8 +110,11 @@ scanFromParms :: Parms -> IO ()
 scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
-  let frames = listOfFrames p
+  let frames = listOfFrames p i1 i2
   print frames
-  can <- scanOneFrame p 0 i1 i2
-  writeImage "foo.png" can 
+
+  writeFrames p frames
+  --can <- scanOneFrame p $ frames !! 0
+  --writeImage (imgfile $ frames !! 0) can
+  
   return ()

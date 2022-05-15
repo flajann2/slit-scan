@@ -44,6 +44,7 @@ library
     , hmatrix
     , one-liner
     , optparse-applicative
+    , parallel
     , repa
     , repa-algorithms
     , text

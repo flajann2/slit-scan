@@ -35,6 +35,7 @@ library:
     - formatting
     - filepath
     - text
+    - parallel
  
 executables:
   slit-scan:
