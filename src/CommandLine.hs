@@ -7,7 +7,7 @@ module CommandLine
   ) where
 
 import Options.Applicative
-import Data.Semigroup ((<>))
+--import Data.Semigroup ((<>))
 
 data Parms = Parms
   { img1           :: String
@@ -16,11 +16,11 @@ data Parms = Parms
   , canvas_height  :: Int
   , vert           :: Bool
   , preview        :: Bool
-  , scans          :: Int
+  , frames         :: Int
+  , frames_per_sec :: Double
   , scans_per_sec  :: Double
-  , frames_per_sec :: Int
   , expand         :: Double
-  , format         :: String
+  , image_format   :: String
   , out            :: String
   , viewer         :: String
   } deriving Show
@@ -32,12 +32,12 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , canvas_height = 1024
                     , vert = True
                     , preview = True
-                    , scans = 1000
+                    , frames = 600
                     , scans_per_sec = 60
                     , frames_per_sec = 30
                     , expand = 3
-                    , format = "png"
-                    , out = "./"
+                    , image_format = "png"
+                    , out = "./foo"
                     , viewer = "fim"
                     }
   
@@ -75,19 +75,12 @@ parms = Parms
                      <> short 'w'
                      <> help "View output image/video with viewer"
                    )
-        <*> option auto ( long "scans"
+        <*> option auto ( long "frames"
                           <> short 's'
-                          <> value 10000
+                          <> value 600
                           <> showDefault
-                          <> metavar "NUMSCANS"
-                          <> help "number of scans to generate -- should be at least the width or height of the canvas"                      
-                        )
-        <*> option auto ( long "scanspersec"
-                        <> short 't'
-                        <> value 60
-                        <> showDefault
-                        <> metavar "SPS"
-                        <> help "Number of scans per second"
+                          <> metavar "NUMFRAMES"
+                          <> help "number of frames to generate"                      
                         )
         <*> option auto ( long "framespersec"
                         <> short 'm'
@@ -95,6 +88,13 @@ parms = Parms
                         <> metavar "FPS"
                         <> showDefault
                         <> help "Number of frames per second to generate"
+                        )
+        <*> option auto ( long "scanspersec"
+                        <> short 't'
+                        <> value 60
+                        <> showDefault
+                        <> metavar "SPS"
+                        <> help "Number of scans per second"
                         )
         <*> option auto ( long "expand"
                           <> short 'e'

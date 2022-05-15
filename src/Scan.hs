@@ -12,7 +12,7 @@ import CommandLine(Parms(..))
 
 import Control.Monad
 import Criterion.Main
-import Data.Array.Repa                     as R
+import qualified Data.Array.Repa           as R
 import Data.Array.Repa.Algorithms.Convolve as R
 import Data.Array.Repa.Eval                as R
 import Data.Array.Repa.Repr.Unboxed        as R
@@ -28,7 +28,7 @@ import System.FilePath.Posix               as F
 
 import Prelude                             as P
 
-import Formatting
+import Formatting                          as F
 import qualified Data.Text                 as T
 import qualified Data.Text.Lazy            as TL
 import qualified Data.Text.Lazy.Builder    as TLB
@@ -69,11 +69,28 @@ scanOneFrame p t i1 i2 = do
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
 
+-- We create a list of that which shall be evaluated
+data Frame = Frame { fi :: Int         -- frame index
+                   , ti :: Double      -- time index, based on the number of frames per second
+                   , imgfile :: String -- pathname to the image frame that will be written
+                   } deriving Show
+
+listOfFrames :: Parms -> [Frame]
+listOfFrames p = [Frame { fi = i
+                        , ti = fromIntegral i / frames_per_sec p
+                        , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
+                        } | i <- [0 .. frames p]]
+
+-- What we want to do here is to create a sequence of tuples,
+-- which would contain the sequence (frame) number, generated pathname, and the t(ime)
+-- parameter.
 
 scanFromParms :: Parms -> IO ()
 scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
+  let frames = listOfFrames p
+  print frames
   can <- scanOneFrame p 0 i1 i2
   writeImage "foo.png" can 
   return ()

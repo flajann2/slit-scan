@@ -52,4 +52,10 @@
 
     Scan speed 
 ** Outputting the video
+   We shall use "out" as the path-filename fragment, where
+   a 4-digit (or 5-digit?) sequence number shall be appened,
+   along with the .EXT (default is png).
+
+   Later on, we'll change this to do a video file directly. 
+
 ** Future planned enhancements

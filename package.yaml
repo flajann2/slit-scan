@@ -21,6 +21,11 @@ dependencies:
 
 library:
   source-dirs: src
+  ghc-options:
+    - -threaded
+    - -with-rtsopts=-N
+    - -O2
+    #- -Wall
   dependencies:
     - optparse-applicative
     - hip
@@ -31,7 +36,8 @@ library:
     - hmatrix
     - formatting
     - filepath
-
+    - text
+ 
 executables:
   slit-scan:
     main:                SlitScan.hs
@@ -40,6 +46,8 @@ executables:
       - -threaded
       - -rtsopts
       - -with-rtsopts=-N
+      - -O2
+      #- -Wall
     dependencies:
       - slit-scan
       - optparse-applicative
@@ -53,29 +61,29 @@ executables:
     main:                bench-Hip.hs
     source-dirs:         examples
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - slit-scan
-    - hip
-    - JuicyPixels
-    - JuicyPixels-extra
-    - criterion
-    - deepseq
-    - massiv
-    - massiv-io
-    - repa
-    - repa-algorithms
+      - slit-scan
+      - hip
+      - JuicyPixels
+      - JuicyPixels-extra
+      - criterion
+      - deepseq
+      - massiv
+      - massiv-io
+      - repa
+      - repa-algorithms
   
 tests:
   slit-scan-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - slit-scan
+      - slit-scan
  
