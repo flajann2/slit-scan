@@ -40,6 +40,10 @@ data CanvasSide = LeftSide
                 | TopSide
                 | BottomSide deriving (Eq, Show)
 
+-- before or after the slit? Before would be above if the slit is horizontal,
+-- to the left if the slit is verical. 
+data SlitSide = Before | After deriving (Eq, Show)
+
 canvasSide :: Parms -> (Int, Int) -> (Int, Int) -> CanvasSide
 canvasSide p (x, y) (rows, cols)
   | vertDir == True = verticalSlit
@@ -75,6 +79,11 @@ listOfFrames p i1 i2 = [Frame { fi = i
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
                               } | i <- [0 .. frames p]]
 
+
+transformP :: Parms -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
+transformP p im ss (x, y) = transformToTup where
+  transformToTup = (x, y)
+
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
 scanOneFrame p f = do
   let icanvas = makeImage (canvas_height p, canvas_width p)
@@ -82,10 +91,10 @@ scanOneFrame p f = do
   return icanvas
   where
     pixelScanner x y
-      | side == LeftSide   = I.maybeIndex (simg1 f) (x, y)
-      | side == RightSide  = I.maybeIndex (simg2 f) (x, y)
-      | side == TopSide    = I.maybeIndex (simg1 f) (x, y)
-      | side == BottomSide = I.maybeIndex (simg2 f) (x, y)
+      | side == LeftSide   = I.maybeIndex (simg1 f) $ transformP p (simg1 f) Before (x, y)
+      | side == RightSide  = I.maybeIndex (simg2 f) $ transformP p (simg2 f) After  (x, y)
+      | side == TopSide    = I.maybeIndex (simg1 f) $ transformP p (simg1 f) Before (x, y)
+      | side == BottomSide = I.maybeIndex (simg2 f) $ transformP p (simg2 f) After  (x, y)
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
 

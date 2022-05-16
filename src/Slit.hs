@@ -6,8 +6,8 @@
 module Slit 
     ( toP
     , toN
-    , NPoint
-    , PPoint
+    , NPoint(..)
+    , PPoint(..)
     , ImageVRD
     , PixelVRD
     , MatrixD
@@ -56,6 +56,10 @@ toN (PPoint (x,y)) im = NPoint( fromIntegral x / fromIntegral (I.rows im)
 toP :: NPoint -> ImageVRD -> PPoint 
 toP (NPoint (x,y)) im = PPoint( round (x * fromIntegral (I.rows im))
                               , round (y * fromIntegral (I.cols im)))
+
+-- convert a PPoint to a tuple
+toTup :: PPoint -> (Int, Int)
+toTup (PPoint(x,y)) = (x, y)
 
 -- transformation equations
 
