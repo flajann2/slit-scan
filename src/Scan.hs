@@ -112,7 +112,7 @@ writeFrames p [] = do
 writeFrames p (f:fs) = do
   writeOneFrame p f
   writeFrames p fs
-
+    
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
 -- parameter.
@@ -122,5 +122,8 @@ scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
   let frames = listOfFrames p i1 i2
-  writeFrames p frames
+  let a = runEval $ do a <- rpar $ writeFrames p frames
+                       rseq a
+                       return a
+  print a    
   return ()

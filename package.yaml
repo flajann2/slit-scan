@@ -46,6 +46,7 @@ executables:
       - -rtsopts
       - -with-rtsopts=-N
       - -O2
+      - -eventlog
       #- -Wall
     dependencies:
       - slit-scan
