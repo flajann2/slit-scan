@@ -20,6 +20,7 @@ import Data.Array.Repa.Eval                as R
 import Data.Array.Repa.Repr.Unboxed        as R
 import Data.Array.Repa.Stencil             as R
 import Data.Array.Repa.Stencil.Dim2        as R
+import Data.Functor
 
 import Graphics.Image                      as I
 import Graphics.Image.IO                   as I
@@ -62,15 +63,15 @@ fromMaybePixel Nothing  = PixelRGB 0 0 0
 fromMaybePixel (Just x) = x
 
 -- We create a list of that which shall be evaluated
-data Frame = Frame { fi :: Int         -- frame index
-                   , ti :: Double      -- time index, based on the number of frames per second
-                   , si :: Int         -- scan index, always increasing
-                   , simg1 :: ImageVRD -- source image 1
-                   , simg2 :: ImageVRD -- source image 2
-                   , imgfile :: String -- pathname to the image frame that will be written
+data Frame = Frame { fi :: Int          -- frame index
+                   , ti :: Double       -- time index, based on the number of frames per second
+                   , si :: Int          -- scan index, always increasing
+                   , simg1 :: ImageVRD  -- source image 1
+                   , simg2 :: ImageVRD  -- source image 2
+                   , imgfile :: String  -- pathname to the image frame that will be written
                    } deriving Show
 
-listOfFrames :: Parms -> ImageVRD -> ImageVRD -> [Frame]
+listOfFrames :: Parms -> ImageVRD -> ImageVRD ->  [Frame]
 listOfFrames p i1 i2 = [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
                               , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p
@@ -82,7 +83,8 @@ listOfFrames p i1 i2 = [Frame { fi = i
 
 transformP :: Parms -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
 transformP p im ss (x, y) = transformToTup where
-  transformToTup = (x, y)
+  npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
+  transformToTup = toTup $ toP ((2*) <$> npoint) im
 
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
 scanOneFrame p f = do

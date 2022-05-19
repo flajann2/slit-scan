@@ -5,7 +5,9 @@
 
 module Slit 
     ( toP
+    , toNrc
     , toN
+    , toTup
     , NPoint(..)
     , PPoint(..)
     , ImageVRD
@@ -48,9 +50,15 @@ newtype NPoint = NPoint (Double, Double) deriving (Show, Eq)
 newtype PPoint = PPoint (Int, Int)       deriving (Show, Eq)
 
 -- convert a Physical point to a Normalised point
+toNrc :: PPoint -> (Int, Int) -> NPoint
+toNrc (PPoint(x,y)) (rows, cols) = NPoint( fromIntegral x / fromIntegral rows
+                                         , fromIntegral y / fromIntegral cols)
+
 toN :: PPoint -> ImageVRD -> NPoint
-toN (PPoint (x,y)) im = NPoint( fromIntegral x / fromIntegral (I.rows im)
-                              , fromIntegral y / fromIntegral (I.cols im))
+toN p im = toNrc p (I.rows im, I.cols im)
+
+--  NPoint( fromIntegral x / fromIntegral (I.rows im)
+--                              , fromIntegral y / fromIntegral (I.cols im))
  
 -- convert a normalised point to a physical point
 toP :: NPoint -> ImageVRD -> PPoint 
