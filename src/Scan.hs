@@ -125,5 +125,4 @@ scanFromParms p = do
   let a = runEval $ do a <- rpar $ writeFrames p frames
                        rseq a
                        return a
-  print a    
   return ()
