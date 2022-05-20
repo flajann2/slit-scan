@@ -12,6 +12,8 @@ module Slit
     , PPoint(..)
     , ImageVRD
     , PixelVRD
+    , nToV
+    , vToN
     , MatrixD
     , slitMatrix
     ) where
@@ -26,7 +28,7 @@ import Control.Applicative
 import Control.Monad
 import Criterion.Main
 
-import Data.Array.Repa                     as R
+import Data.Array.Repa hiding ((!))    --  as R
 import Data.Array.Repa.Algorithms.Convolve as R
 import Data.Array.Repa.Eval                as R
 import Data.Array.Repa.Repr.Unboxed        as R
@@ -68,6 +70,15 @@ toP (NPoint (x,y)) im = PPoint( round (x * fromIntegral (I.rows im))
 -- convert a PPoint to a tuple
 toTup :: PPoint -> (Int, Int)
 toTup (PPoint(x,y)) = (x, y)
+
+-- convert an NPoint to a 3-vector
+type VectorD = N.Vector R
+nToV :: NPoint -> VectorD
+nToV (NPoint (x, y)) = 3 |> [x, y, 1]
+
+-- convert a 3-vector to an NPoint
+vToN :: VectorD -> NPoint
+vToN vec = NPoint(vec ! 0, vec ! 1)
 
 -- transformation equations
 

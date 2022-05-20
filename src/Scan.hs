@@ -22,6 +22,8 @@ import Data.Array.Repa.Stencil             as R
 import Data.Array.Repa.Stencil.Dim2        as R
 import Data.Functor
 
+import Numeric.LinearAlgebra               as N
+
 import Graphics.Image                      as I
 import Graphics.Image.IO                   as I
 import Graphics.Image.Interface            as I
@@ -69,6 +71,7 @@ data Frame = Frame { fi :: Int          -- frame index
                    , simg1 :: ImageVRD  -- source image 1
                    , simg2 :: ImageVRD  -- source image 2
                    , imgfile :: String  -- pathname to the image frame that will be written
+                   , slitM :: MatrixD   -- (computed) slit matrix
                    } deriving Show
 
 listOfFrames :: Parms -> ImageVRD -> ImageVRD ->  [Frame]
@@ -78,13 +81,15 @@ listOfFrames p i1 i2 = [Frame { fi = i
                               , simg1 = i1
                               , simg2 = i2
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
+                              , slitM = slitMatrix p
                               } | i <- [0 .. frames p]]
 
-
-transformP :: Parms -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
-transformP p im ss (x, y) = transformToTup where
-  npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
-  transformToTup = toTup $ toP npoint im
+transformP :: Parms -> Frame -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
+transformP p f im ss (x, y) = transformToTup
+  where
+    npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
+    npoint' = vToN $ slitM f #> nToV npoint
+    transformToTup = toTup $ toP npoint' im
 
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
 scanOneFrame p f = do
@@ -93,10 +98,10 @@ scanOneFrame p f = do
   return icanvas
   where
     pixelScanner x y
-      | side == LeftSide   = I.maybeIndex (simg1 f) $ transformP p (simg1 f) Before (x, y)
-      | side == RightSide  = I.maybeIndex (simg2 f) $ transformP p (simg2 f) After  (x, y)
-      | side == TopSide    = I.maybeIndex (simg1 f) $ transformP p (simg1 f) Before (x, y)
-      | side == BottomSide = I.maybeIndex (simg2 f) $ transformP p (simg2 f) After  (x, y)
+      | side == LeftSide   = I.maybeIndex (simg1 f) $ transformP p f (simg1 f) Before (x, y)
+      | side == RightSide  = I.maybeIndex (simg2 f) $ transformP p f (simg2 f) After  (x, y)
+      | side == TopSide    = I.maybeIndex (simg1 f) $ transformP p f (simg1 f) Before (x, y)
+      | side == BottomSide = I.maybeIndex (simg2 f) $ transformP p f (simg2 f) After  (x, y)
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
 
