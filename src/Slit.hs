@@ -78,7 +78,7 @@ nToV (NPoint (x, y)) = 3 |> [x, y, 1]
 
 -- convert a 3-vector to an NPoint
 vToN :: VectorD -> NPoint
-vToN vec = NPoint(vec ! 0, vec ! 1)
+vToN vec = NPoint(vec ! 0 / vec ! 2, vec ! 1 / vec ! 2)
 
 -- transformation equations
 
@@ -91,9 +91,9 @@ instance SquareArrows Parms Double where
   bx p = 0
   by p = 1
   cx p = 1
-  cy p = - expand p / 2
+  cy p = - expand p 
   dx p = 1
-  dy p = expand p / 2 + (by p - ay p) -- / 2
+  dy p = expand p + (by p - ay p) -- / 2
    
 class TransformMatrix p a where
   m11, m12, m13, m21, m22, m23, m31, m32, m33 :: p -> a
