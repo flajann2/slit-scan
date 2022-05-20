@@ -12,7 +12,7 @@ import Slit
 import CommandLine(Parms(..))
 
 import Control.Monad
-import Control.Parallel.Strategies
+import Control.Concurrent
 import Criterion.Main
 import qualified Data.Array.Repa           as R
 import Data.Array.Repa.Algorithms.Convolve as R
@@ -110,7 +110,7 @@ writeFrames :: Parms -> [Frame] -> IO ()
 writeFrames p [] = do
   return ()
 writeFrames p (f:fs) = do
-  writeOneFrame p f
+  t <- forkIO $ writeOneFrame p f
   writeFrames p fs
 
 -- What we want to do here is to create a sequence of tuples,
@@ -123,4 +123,5 @@ scanFromParms p = do
   i2 <- I.readImageRGB VU $ img2 p
   let frames = listOfFrames p i1 i2
   writeFrames p frames
+  threadDelay 100000000
   return ()
