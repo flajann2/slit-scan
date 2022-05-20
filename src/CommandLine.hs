@@ -32,7 +32,7 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , canvas_height = 1024
                     , vert = True
                     , preview = True
-                    , frames = 600
+                    , frames = 10 
                     , scans_per_sec = 60
                     , frames_per_sec = 30
                     , expand = 3
