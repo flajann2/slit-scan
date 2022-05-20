@@ -93,7 +93,7 @@ instance SquareArrows Parms Double where
   cx p = 1
   cy p = - expand p / 2
   dx p = 1
-  dy p = expand p / 2 + (by p - ay p) / 2
+  dy p = expand p / 2 + (by p - ay p) -- / 2
    
 class TransformMatrix p a where
   m11, m12, m13, m21, m22, m23, m31, m32, m33 :: p -> a

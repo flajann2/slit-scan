@@ -1,4 +1,4 @@
-% Created 2022-05-15 Sun 18:36
+% Created 2022-05-20 Fri 18:40
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,16 +69,16 @@
 
 
 \section{Slit Scan Notes}
-\label{sec:org6eb2e17}
+\label{sec:orgd276e23}
 \subsection{Disclaimer}
-\label{sec:org4f46cbb}
+\label{sec:org70d71a0}
 These are my basic notes on this project, and are not
 meant for general consumption, and therefore are not
 gauranteed to be accurate or even useful for anyone 
 other than myself. Please see the README.org or the
 README.pdf for that.
 \subsection{Loading Images}
-\label{sec:orged4c4cb}
+\label{sec:org6bbaa7f}
 \begin{itemize}
 \item We could resize one of the images to be the 
 exact same size/dimensions of the other. Would simplify 
@@ -93,7 +93,7 @@ work backwards from there to determine the "slit",
 and should cover this in the math description in the README.
 \end{itemize}
 \subsubsection{Pipelining}
-\label{sec:org6ef2448}
+\label{sec:orga06f210}
 We can manipulate the source images to be the same size, and rotate
 them to do a horizontal scan. For 2 images, we create each canvas
 seperately, then combine them during the compositing phase.
@@ -101,7 +101,7 @@ seperately, then combine them during the compositing phase.
 Indeed, we shall take a pipelining approach, so we can run all of this
 in parallel to utilize all the available cores.
 \subsection{Scanning the images}
-\label{sec:orge9bb387}
+\label{sec:org29f5648}
 It just occured to me that we should scan from the basis of the canvas, since
 that is the target, and simply do the math transforms to the source images.
 This way, we can handle blending / dithering / smoothing between pixels on the
@@ -111,7 +111,7 @@ In fact, we can utilize the normal mapping function of the destination, and
 simply address the pixels via the index fuction from the sources.
 
 \subsubsection{Orign of Graphics.Image images}
-\label{sec:org4b6246b}
+\label{sec:org685b72d}
 The origin is in the upper-left corner and descends down and right.
 This is typical of computer graphics going all the way back to the raster scan
 days which almost invariably stated from the upper left and scanned to the
@@ -120,7 +120,7 @@ right and down.
 From a mathematical perspective, I have always found this annoying, but for
 purposes of keeping things "simple", I will embrace that in my math here.
 \subsubsection{Scan Direction}
-\label{sec:org701786c}
+\label{sec:org7d7a5fa}
 On the source images, we will initally scan from right to left, meaning that
 conceptually the source image is moving from left to right. Time t is a Double
 parameter, even though a single tick of t represents one pixel.
@@ -129,7 +129,7 @@ Scan speed is based on scans per second, which will be somewhat related to
 frames per second, but not perfectly.
 
 \subsubsection{Scan Index (si)}
-\label{sec:orgea2c597}
+\label{sec:org5119a73}
 The scan index roughly relates to the frame index (fi) but is based
 on the number of scans per second. On the first frame, si will be less than 
 the actual scan width of both the source and canvas. This will eventually change,
@@ -142,13 +142,18 @@ In actuality, I don't think there's anything special we need to do for the
 canvas. It's all on the source, and handling the wrap-around correctly.
 
 \subsection{Outputting the video}
-\label{sec:orgb804303}
+\label{sec:orgee66f69}
 We shall use "out" as the path-filename fragment, where
 a 4-digit (or 5-digit?) sequence number shall be appened,
 along with the .EXT (default is png).
 
 Later on, we'll change this to do a video file directly. 
 
+\begin{verbatim}
+ffmpeg -framerate 30 -pattern_type glob -i '*.png' -c:v libx264 -pix_fmt yuv420p out.mp4
+\end{verbatim}
+
+
 \subsection{Future planned enhancements}
-\label{sec:org3add731}
+\label{sec:org372ce69}
 \end{document}
