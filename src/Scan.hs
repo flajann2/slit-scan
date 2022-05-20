@@ -84,7 +84,7 @@ listOfFrames p i1 i2 = [Frame { fi = i
 transformP :: Parms -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
 transformP p im ss (x, y) = transformToTup where
   npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
-  transformToTup = toTup $ toP ((2*) <$> npoint) im
+  transformToTup = toTup $ toP npoint im
 
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
 scanOneFrame p f = do
