@@ -12,7 +12,7 @@ import Slit
 import CommandLine(Parms(..))
 
 import Control.Monad
-import Control.Concurrent
+import Control.Concurrent.Async
 import Criterion.Main
 import qualified Data.Array.Repa           as R
 import Data.Array.Repa.Algorithms.Convolve as R
@@ -106,13 +106,6 @@ writeOneFrame p f = do
   writeImage (imgfile f) can
   print $ imgfile f
 
-writeFrames :: Parms -> [Frame] -> IO ()
-writeFrames p [] = do
-  return ()
-writeFrames p (f:fs) = do
-  t <- forkIO $ writeOneFrame p f
-  writeFrames p fs
-
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
 -- parameter.
@@ -122,6 +115,6 @@ scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
   let frames = listOfFrames p i1 i2
-  writeFrames p frames
-  threadDelay 100000000
+  --writeFrames p frames
+  w <- mapConcurrently_ (writeOneFrame p) frames
   return ()

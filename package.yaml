@@ -36,6 +36,7 @@ library:
     - filepath
     - text
     - parallel
+    - async
  
 executables:
   slit-scan:
