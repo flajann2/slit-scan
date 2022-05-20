@@ -89,7 +89,7 @@ transformP p f im ss (x, y) = transformToTup
   where
     npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
     scanV = 3 |>[ti f, 0, 0]
-    npoint' = vToN $ slitM f #> (nToV npoint + scanV)
+    npoint' = vToN $ scanV + slitM f #> (nToV npoint)
     transformToTup = toTup $ toP npoint' im
 
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
