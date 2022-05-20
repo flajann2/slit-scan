@@ -23,6 +23,7 @@ data Parms = Parms
   , image_format   :: String
   , out            :: String
   , viewer         :: String
+  , verbose        :: Bool
   } deriving Show
 
 --TODO: this is mainly for testing. delete this in production
@@ -39,6 +40,7 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , image_format = "png"
                     , out = "./foo"
                     , viewer = "fim"
+                    , verbose = True
                     }
   
 parms :: Parser Parms
@@ -123,6 +125,11 @@ parms = Parms
                         <> metavar "VIEWER"
                         <> value "/usr/bin/fim"
                       )
+        <*> switch ( long "verbose"
+                     <> short 'v'
+                     <> help "Verbose output"
+                   )
+         
 
 commandline :: IO Parms
 commandline = cmd =<< execParser opts

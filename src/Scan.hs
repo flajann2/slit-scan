@@ -104,7 +104,8 @@ writeOneFrame :: Parms -> Frame -> IO ()
 writeOneFrame p f = do
   can <- scanOneFrame p f
   writeImage (imgfile f) can
-  print $ imgfile f
+  if verbose p then print $ imgfile f else return ()
+  
 
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
@@ -115,6 +116,5 @@ scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
   let frames = listOfFrames p i1 i2
-  --writeFrames p frames
-  w <- mapConcurrently_ (writeOneFrame p) frames
-  return ()
+  mapConcurrently_ (writeOneFrame p) frames
+

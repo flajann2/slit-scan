@@ -281,6 +281,13 @@
   This covers the usage from the command-line. Rather than go into extensive documentation
   on the command-line commands and options (the program itself provides this), we shall
   give some helpul examples.
+** System Limits
+   You may have to set system limits to boost the number
+   of open files.
+   $$
+   ulimit -S -n 2048
+   $$
+
 ** Simple case -- one image, simple vertical slit
    slit-scan --i1 flower.jpg --format png --out film/
 
@@ -289,4 +296,4 @@
 ** Advanced 2 -- 2 images, sine slit
 ** Advanced 3 -- 2 images, rotating sine slit
 ** Advanced 4 -- 2 images, arbitrary function for the slit and the 2 endpoints
-
+   
