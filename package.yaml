@@ -37,6 +37,7 @@ library:
     - text
     - parallel
     - async
+    - array
  
 executables:
   slit-scan:

@@ -36,7 +36,8 @@ library
       src
   ghc-options: -O2
   build-depends:
-      async
+      array
+    , async
     , base >=4.7 && <5
     , criterion
     , filepath

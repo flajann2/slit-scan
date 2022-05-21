@@ -1,6 +1,7 @@
 -- Here we do the actual scans
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module Scan
   ( scanFromParms
@@ -21,6 +22,7 @@ import Data.Array.Repa.Repr.Unboxed        as R
 import Data.Array.Repa.Stencil             as R
 import Data.Array.Repa.Stencil.Dim2        as R
 import Data.Functor
+import Data.Array.IO                       as R
 
 import Numeric.LinearAlgebra               as N
 
@@ -65,21 +67,26 @@ fromMaybePixel Nothing  = PixelRGB 0 0 0
 fromMaybePixel (Just x) = x
 
 -- We create a list of that which shall be evaluated
-data Frame = Frame { fi :: Int          -- frame index
-                   , ti :: Double       -- time index, based on the number of frames per second
-                   , si :: Double       -- scan index, always increasing
-                   , simg1 :: ImageVRD  -- source image 1
-                   , simg2 :: ImageVRD  -- source image 2
-                   , imgfile :: String  -- pathname to the image frame that will be written
-                   , slitM :: MatrixD   -- (computed) slit matrix
+data Frame = Frame { fi :: Int                 -- frame index
+                   , ti :: Double              -- time index, based on the number of frames per second
+                   , si :: Double              -- scan index, always increasing
+                   , simg1 :: ImageVRD         -- source image 1
+                   , simg2 :: ImageVRD         -- source image 2
+                   , intimg1 :: Maybe ImageVRD -- intermediate image 1
+                   , intimg2 :: Maybe ImageVRD -- intermediate image 2
+                   , imgfile :: String         -- pathname to the image frame that will be written
+                   , slitM :: MatrixD          -- (computed) slit matrix
                    } deriving Show
 
-listOfFrames :: Parms -> ImageVRD -> ImageVRD ->  [Frame]
-listOfFrames p i1 i2 = [Frame { fi = i
+listOfFrames :: Parms -> ImageVRD -> ImageVRD -> IO (IOArray Int Frame)
+listOfFrames p i1 i2 = newListArray (0, frames p)
+                       [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
                               , si = fromIntegral i * scans_per_sec p / frames_per_sec p
                               , simg1 = i1
                               , simg2 = i2
+                              , intimg1 = Nothing
+                              , intimg2 = Nothing
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
                               , slitM = slitMatrix p
                               } | i <- [0 .. frames p]]
@@ -121,6 +128,7 @@ scanFromParms :: Parms -> IO ()
 scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
-  let frames = listOfFrames p i1 i2
-  mapConcurrently_ (writeOneFrame p) frames
-
+  frames <- listOfFrames p i1 i2
+  
+  --mapConcurrently_ (writeOneFrame p) frames
+  return ()

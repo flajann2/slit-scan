@@ -64,10 +64,19 @@
 
     In actuality, I don't think there's anything special we need to do for the
     canvas. It's all on the source, and handling the wrap-around correctly.
-    
+*** Logic change    
     I now understand that I must copy a single slit into an array and just 
     keep advancing this array on each iteration, not the way I am doing 
     it with the matrix!!! The logic will have to be shifted.
+
+    + We shall do this by having an intermediate buffer
+      that will buffer up the slits. The image buffer
+      will have to be shifted over by one row or column to 
+      accept the next slit. 
+
+      We then apply the matrix operators not to the source 
+      image, but to the intermediate buffer, to get the
+      final effect we are looking for.
     
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where
