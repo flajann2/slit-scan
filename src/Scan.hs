@@ -34,6 +34,7 @@ import Graphics.Image.Interface.Repa       as I
 import System.FilePath.Posix               as F
 
 import Prelude                             as P
+import Data.Maybe                          as P
 
 import Formatting                          as F
 import qualified Data.Text                 as T
@@ -72,7 +73,7 @@ data Frame = Frame { fi :: Int                 -- frame index
                    , si :: Double              -- scan index, always increasing
                    , simg1 :: ImageVRD         -- source image 1
                    , simg2 :: ImageVRD         -- source image 2
-                   , intimg1 :: Maybe ImageVRD -- intermediate image 1
+                   , intimg1 :: (Maybe ImageVRD) -- intermediate image 1
                    , intimg2 :: Maybe ImageVRD -- intermediate image 2
                    , imgfile :: String         -- pathname to the image frame that will be written
                    , slitM :: MatrixD          -- (computed) slit matrix
@@ -101,12 +102,19 @@ transformP p f im ss (x, y) = transformToTup
     npoint' = vToN $ scanV + slitM f #> (nToV npoint)
     transformToTup = toTup $ toP npoint' im
 
-scanOneFrame :: Parms -> Frame -> IO ImageVRD
+scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
 scanOneFrame p f = do
+  let f' = f { intimg1 = Just $ shiftRight $ intimg1 f
+             , intimg2 = Just $ shiftRight $ intimg2 f
+             }
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y)
-  return icanvas
+  return (icanvas, f')
   where
+    shiftRight :: (Maybe ImageVRD) -> ImageVRD
+    shiftRight mim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
+                   | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+
     pixelScanner x y
       | side == LeftSide   = I.maybeIndex (simg1 f) $ transformP p f (simg1 f) Before (x, y)
       | side == RightSide  = I.maybeIndex (simg2 f) $ transformP p f (simg2 f) After  (x, y)
@@ -115,21 +123,24 @@ scanOneFrame p f = do
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
 
-writeOneFrame :: Parms -> Frame -> IO ()
+writeOneFrame :: Parms -> Frame -> IO Frame
 writeOneFrame p f = do
-  can <- scanOneFrame p f
+  (can, f') <- scanOneFrame p f
   writeImage (imgfile f) can
-  if verbose p then print $ imgfile f else return ()
+  return f'
   
-
 -- What we want to do here is to create a sequence of tuples,
 -- which would contain the sequence (frame) number, generated pathname, and the t(ime)
 -- parameter.
 
 scanFromParms :: Parms -> IO ()
 scanFromParms p = do
-  i1 <- I.readImageRGB VU $ img1 p
-  i2 <- I.readImageRGB VU $ img2 p
+  i1' <- I.readImageRGB VU $ img1 p
+  i2' <- I.readImageRGB VU $ img2 p
+
+  let i1 = resize Bilinear Edge (canvas_height p, canvas_width p) i1'
+  let i2 = resize Bilinear Edge (canvas_height p, canvas_width p) i2'
+  
   frms <- listOfFrames p i1 i2
   (a, b) <- getBounds frms
   _ <- computeFrames p frms a b
@@ -140,4 +151,11 @@ scanFromParms p = do
     computeFrames p frms i b = do
       frm <- readArray frms i
       writeOneFrame p frm
+      verboseDump p frm
       computeFrames p frms (i+1) (b-1)
+        where
+          verboseDump p f = do
+             if verbose p
+               then print $ imgfile f
+               else return ()
+
