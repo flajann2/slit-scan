@@ -65,6 +65,10 @@
     In actuality, I don't think there's anything special we need to do for the
     canvas. It's all on the source, and handling the wrap-around correctly.
     
+    I now understand that I must copy a single slit into an array and just 
+    keep advancing this array on each iteration, not the way I am doing 
+    it with the matrix!!! The logic will have to be shifted.
+    
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where
    a 4-digit (or 5-digit?) sequence number shall be appened,

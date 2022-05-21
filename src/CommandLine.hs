@@ -10,20 +10,21 @@ import Options.Applicative
 --import Data.Semigroup ((<>))
 
 data Parms = Parms
-  { img1           :: String
-  , img2           :: String
-  , canvas_width   :: Int
-  , canvas_height  :: Int
-  , vert           :: Bool
-  , preview        :: Bool
-  , frames         :: Int
-  , frames_per_sec :: Double
-  , scans_per_sec  :: Double
-  , expand         :: Double
-  , image_format   :: String
-  , out            :: String
-  , viewer         :: String
-  , verbose        :: Bool
+  { img1                    :: String
+  , img2                    :: String
+  , canvas_width            :: Int
+  , canvas_height           :: Int
+  , vert                    :: Bool
+  , preview                 :: Bool
+  , frames                  :: Int
+  , frames_per_sec          :: Double
+  , scans_per_sec           :: Double
+  , source_lines_per_second :: Double
+  , expand                  :: Double
+  , image_format            :: String
+  , out                     :: String
+  , viewer                  :: String
+  , verbose                 :: Bool
   } deriving Show
 
 --TODO: this is mainly for testing. delete this in production
@@ -35,6 +36,7 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , preview = True
                     , frames = 600
                     , scans_per_sec = 60
+                    , source_lines_per_second = 10
                     , frames_per_sec = 30
                     , expand = 3
                     , image_format = "png"
@@ -97,6 +99,13 @@ parms = Parms
                         <> showDefault
                         <> metavar "SPS"
                         <> help "Number of scans per second"
+                        )
+        <*> option auto ( long "linespersec"
+                        <> short 'T'
+                        <> value 10
+                        <> showDefault
+                        <> metavar "LPS"
+                        <> help "Number of source 'lines' per second"
                         )
         <*> option auto ( long "expand"
                           <> short 'e'

@@ -67,7 +67,7 @@ fromMaybePixel (Just x) = x
 -- We create a list of that which shall be evaluated
 data Frame = Frame { fi :: Int          -- frame index
                    , ti :: Double       -- time index, based on the number of frames per second
-                   , si :: Int          -- scan index, always increasing
+                   , si :: Double       -- scan index, always increasing
                    , simg1 :: ImageVRD  -- source image 1
                    , simg2 :: ImageVRD  -- source image 2
                    , imgfile :: String  -- pathname to the image frame that will be written
@@ -77,7 +77,7 @@ data Frame = Frame { fi :: Int          -- frame index
 listOfFrames :: Parms -> ImageVRD -> ImageVRD ->  [Frame]
 listOfFrames p i1 i2 = [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
-                              , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p
+                              , si = fromIntegral i * scans_per_sec p / frames_per_sec p
                               , simg1 = i1
                               , simg2 = i2
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
@@ -88,7 +88,7 @@ transformP :: Parms -> Frame -> ImageVRD -> SlitSide -> (Int, Int) -> (Int, Int)
 transformP p f im ss (x, y) = transformToTup
   where
     npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
-    scanV = 3 |>[ti f, 0, 0]
+    scanV = 3 |>[si f, 0, 0]
     npoint' = vToN $ scanV + slitM f #> (nToV npoint)
     transformToTup = toTup $ toP npoint' im
 
