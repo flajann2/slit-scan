@@ -78,7 +78,9 @@ data Frame = Frame { fi :: Int                 -- frame index
                    , slitM :: MatrixD          -- (computed) slit matrix
                    } deriving Show
 
-listOfFrames :: Parms -> ImageVRD -> ImageVRD -> IO (IOArray Int Frame)
+type SSFrameArray = IOArray Int Frame
+
+listOfFrames :: Parms -> ImageVRD -> ImageVRD -> IO SSFrameArray
 listOfFrames p i1 i2 = newListArray (0, frames p)
                        [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
@@ -128,7 +130,14 @@ scanFromParms :: Parms -> IO ()
 scanFromParms p = do
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
-  frames <- listOfFrames p i1 i2
-  
-  --mapConcurrently_ (writeOneFrame p) frames
+  frms <- listOfFrames p i1 i2
+  (a, b) <- getBounds frms
+  _ <- computeFrames p frms a b
   return ()
+  where
+    computeFrames :: Parms -> SSFrameArray -> Int -> Int -> IO ()
+    computeFrames _ _ _ 0 = return ()
+    computeFrames p frms i b = do
+      frm <- readArray frms i
+      writeOneFrame p frm
+      computeFrames p frms (i+1) (b-1)
