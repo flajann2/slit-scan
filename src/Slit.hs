@@ -1,7 +1,7 @@
 -- Here we handle most of the math behind doing slits of images
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE MultiParamTypeClasses, AllowAmbiguousTypes #-}
 
 module Slit 
     ( toP
@@ -16,6 +16,7 @@ module Slit
     , vToN
     , MatrixD
     , slitMatrix
+    , ParametricSlit(..)
     ) where
 
 import CommandLine( Parms(..)
@@ -123,3 +124,9 @@ slitMatrix p = (3><3) [ m11 p, m12 p, m13 p
                       , m31 p, m32 p, m33 p
                       ]
 
+-- slit equation, parametric varies from 0 to 1, tracing out the scan of
+-- the slit from p1 to p2
+class ParametricSlit np para where
+  paraSlit :: np -> np -> para -> np
+  swapComp :: np -> np
+  

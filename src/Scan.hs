@@ -2,11 +2,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 
 module Scan
   ( scanFromParms
   , ImageVRD
   , PixelVRD
+  , ParametricSlit
   ) where
 
 import Slit
@@ -67,13 +69,19 @@ fromMaybePixel :: Maybe PixelVRD -> PixelVRD
 fromMaybePixel Nothing  = PixelRGB 0 0 0
 fromMaybePixel (Just x) = x
 
+-- ParametricSlit for slit generation (simple version)
+instance ParametricSlit NPoint Double where
+  paraSlit (NPoint(x1,y1)) (NPoint(x2,y2)) q = NPoint( x1 + (x2-x1) * q
+                                                     , y1 + (y2-y1) * q)
+  swapComp (NPoint(x,y)) = NPoint(y,x) -- we do this when the slit is
+  
 -- We create a list of that which shall be evaluated
 data Frame = Frame { fi :: Int                 -- frame index
                    , ti :: Double              -- time index, based on the number of frames per second
                    , si :: Double              -- scan index, always increasing
                    , simg1 :: ImageVRD         -- source image 1
                    , simg2 :: ImageVRD         -- source image 2
-                   , intimg1 :: (Maybe ImageVRD) -- intermediate image 1
+                   , intimg1 :: Maybe ImageVRD -- intermediate image 1
                    , intimg2 :: Maybe ImageVRD -- intermediate image 2
                    , imgfile :: String         -- pathname to the image frame that will be written
                    , slitM :: MatrixD          -- (computed) slit matrix
@@ -99,7 +107,7 @@ transformP p f im ss (x, y) = transformToTup
   where
     npoint = toNrc (PPoint(x,y)) (I.rows im, I.cols im)
     scanV = 3 |>[si f, 0, 0]
-    npoint' = vToN $ scanV + slitM f #> (nToV npoint)
+    npoint' = vToN $ scanV + slitM f #> nToV npoint
     transformToTup = toTup $ toP npoint' im
 
 scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
@@ -108,25 +116,25 @@ scanOneFrame p f = do
              , intimg2 = Just $ shiftRight $ intimg2 f
              }
   let icanvas = makeImage (canvas_height p, canvas_width p)
-        (\(x, y) -> fromMaybePixel $ pixelScanner x y)
+        (\(x, y) -> fromMaybePixel $ pixelScanner x y f')
   return (icanvas, f')
   where
-    shiftRight :: (Maybe ImageVRD) -> ImageVRD
+    shiftRight :: Maybe ImageVRD -> ImageVRD
     shiftRight mim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
                    | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
 
-    pixelScanner x y
-      | side == LeftSide   = I.maybeIndex (simg1 f) $ transformP p f (simg1 f) Before (x, y)
-      | side == RightSide  = I.maybeIndex (simg2 f) $ transformP p f (simg2 f) After  (x, y)
-      | side == TopSide    = I.maybeIndex (simg1 f) $ transformP p f (simg1 f) Before (x, y)
-      | side == BottomSide = I.maybeIndex (simg2 f) $ transformP p f (simg2 f) After  (x, y)
+    pixelScanner x y f'
+      | side == LeftSide   = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)
+      | side == RightSide  = I.maybeIndex (fromJust $ intimg2 f') $ transformP p f (fromJust $ intimg2 f') After  (x, y)
+      | side == TopSide    = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)
+      | side == BottomSide = I.maybeIndex (fromJust $ intimg2 f') $ transformP p f (fromJust $ intimg2 f') After  (x, y)
       where
         side = canvasSide p (x, y) (canvas_height p, canvas_width p)
 
 writeOneFrame :: Parms -> Frame -> IO Frame
 writeOneFrame p f = do
-  (can, f') <- scanOneFrame p f
-  writeImage (imgfile f) can
+  (canvas, f') <- scanOneFrame p f
+  writeImage (imgfile f) canvas
   return f'
   
 -- What we want to do here is to create a sequence of tuples,
@@ -138,6 +146,7 @@ scanFromParms p = do
   i1' <- I.readImageRGB VU $ img1 p
   i2' <- I.readImageRGB VU $ img2 p
 
+  -- resize everything to canvas dimensions to simplify the math.
   let i1 = resize Bilinear Edge (canvas_height p, canvas_width p) i1'
   let i2 = resize Bilinear Edge (canvas_height p, canvas_width p) i2'
   
@@ -149,8 +158,9 @@ scanFromParms p = do
     computeFrames :: Parms -> SSFrameArray -> Int -> Int -> IO ()
     computeFrames _ _ _ 0 = return ()
     computeFrames p frms i b = do
-      frm <- readArray frms i
-      writeOneFrame p frm
+      frm  <- readArray frms i
+      frm' <- writeOneFrame p frm
+      writeArray frms i frm'
       verboseDump p frm
       computeFrames p frms (i+1) (b-1)
         where
