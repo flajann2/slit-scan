@@ -70,10 +70,11 @@ fromMaybePixel Nothing  = PixelRGB 0 0 0
 fromMaybePixel (Just x) = x
 
 -- ParametricSlit for slit generation (simple version)
-instance ParametricSlit NPoint Double where
+instance ParametricSlit NPoint Double Int where
   paraSlit (NPoint(x1,y1)) (NPoint(x2,y2)) q = NPoint( x1 + (x2-x1) * q
                                                      , y1 + (y2-y1) * q)
-  swapComp (NPoint(x,y)) = NPoint(y,x) -- we do this when the slit is
+  swapComp (NPoint(x,y)) = NPoint(y,x) -- we do this when the slit is flipped from horizontal to vertica
+  frameIndexToSlit ix = undefined
   
 -- We create a list of that which shall be evaluated
 data Frame = Frame { fi :: Int                 -- frame index
@@ -112,16 +113,16 @@ transformP p f im ss (x, y) = transformToTup
 
 scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
 scanOneFrame p f = do
-  let f' = f { intimg1 = Just $ shiftRight $ intimg1 f
-             , intimg2 = Just $ shiftRight $ intimg2 f
+  let f' = f { intimg1 = Just $ shiftRight  (intimg1 f) (simg1 f)
+             , intimg2 = Just $ shiftRight  (intimg2 f) (simg1 f)
              }
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y f')
   return (icanvas, f')
   where
-    shiftRight :: Maybe ImageVRD -> ImageVRD
-    shiftRight mim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
-                   | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+    shiftRight :: Maybe ImageVRD -> ImageVRD -> ImageVRD
+    shiftRight mim sim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
+                       | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
 
     pixelScanner x y f'
       | side == LeftSide   = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)

@@ -126,7 +126,7 @@ slitMatrix p = (3><3) [ m11 p, m12 p, m13 p
 
 -- slit equation, parametric varies from 0 to 1, tracing out the scan of
 -- the slit from p1 to p2
-class ParametricSlit np para where
+class ParametricSlit np para ix where
   paraSlit :: np -> np -> para -> np
   swapComp :: np -> np
-  
+  frameIndexToSlit :: ix -> (np, np) -- based on the actual frame index, generate the slit endpoints.
