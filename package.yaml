@@ -38,6 +38,7 @@ library:
     - parallel
     - async
     - array
+    - numeric-prelude
  
 executables:
   slit-scan:

@@ -12,7 +12,7 @@ module Scan
   ) where
 
 import Slit
-import CommandLine(Parms(..))
+import CommandLine (Parms(..))
 
 import Control.Monad
 import Control.Concurrent.Async
@@ -27,6 +27,7 @@ import Data.Functor
 import Data.Array.IO                       as R
 
 import Numeric.LinearAlgebra               as N
+import Algebra.RealRing (fraction)
 
 import Graphics.Image                      as I
 import Graphics.Image.IO                   as I
@@ -77,16 +78,27 @@ instance ParametricSlit NPoint Double Int where
   frameIndexToSlit ix = undefined
   
 -- We create a list of that which shall be evaluated
-data Frame = Frame { fi :: Int                 -- frame index
-                   , ti :: Double              -- time index, based on the number of frames per second
-                   , si :: Double              -- scan index, always increasing
-                   , simg1 :: ImageVRD         -- source image 1
-                   , simg2 :: ImageVRD         -- source image 2
-                   , intimg1 :: Maybe ImageVRD -- intermediate image 1
-                   , intimg2 :: Maybe ImageVRD -- intermediate image 2
-                   , imgfile :: String         -- pathname to the image frame that will be written
-                   , slitM :: MatrixD          -- (computed) slit matrix
+data Frame = Frame { fi        :: Int            -- frame index
+                   , ti        :: Double         -- time index, based on the number of frames per second
+                   , si        :: Double         -- scan index, always increasing
+
+                   , simg1     :: ImageVRD       -- source image 1
+                   , foffsimg1 :: Int            -- frame offset for source image 1 
+                   
+                   , simg2     :: ImageVRD       -- source image 2
+                   , foffsimg2 :: Int            -- frame offset for source image 2
+                   
+                   , intimg1   :: Maybe ImageVRD -- intermediate image 1
+                   , intimg2   :: Maybe ImageVRD -- intermediate image 2
+
+                   , imgfile   :: String         -- pathname to the image frame that will be written
+                   , slitM     :: MatrixD        -- (computed) slit matrix
                    } deriving Show
+
+-- The following are related to Frame. TODO -- tie these directly to Frame somehow
+-- this will become especially useful when we specify multiple images for simg1 as well as simg2. TODO
+fi1 f = fi f - foffsimg1 f
+fi2 f = fi f - foffsimg2 f
 
 type SSFrameArray = IOArray Int Frame
 
@@ -97,6 +109,8 @@ listOfFrames p i1 i2 = newListArray (0, frames p)
                               , si = fromIntegral i * scans_per_sec p / frames_per_sec p
                               , simg1 = i1
                               , simg2 = i2
+                              , foffsimg1 = 0 -- TODO - logic to handle multiple images
+                              , foffsimg2 = 0 -- TODO - logic to handle multiple images
                               , intimg1 = Nothing
                               , intimg2 = Nothing
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
@@ -113,8 +127,8 @@ transformP p f im ss (x, y) = transformToTup
 
 scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
 scanOneFrame p f = do
-  let f' = f { intimg1 = Just $ shiftRight  (intimg1 f) (simg1 f)
-             , intimg2 = Just $ shiftRight  (intimg2 f) (simg1 f)
+  let f' = f { intimg1 = Just $ shiftRight (intimg1 f) (simg1 f)
+             , intimg2 = Just $ shiftRight (intimg2 f) (simg1 f)
              }
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y f')

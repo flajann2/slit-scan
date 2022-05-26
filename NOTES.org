@@ -77,6 +77,11 @@
       We then apply the matrix operators not to the source 
       image, but to the intermediate buffer, to get the
       final effect we are looking for.
+
+      Also, for now, we will resize all images to the canvas size.
+      Later, we'll change that behavior. So, the mod frame advancement
+      math will be a simple modulus with a wraparound.
+      
     
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where
