@@ -1,4 +1,4 @@
-% Created 2022-05-21 Sat 09:17
+% Created 2022-05-27 Fr 14:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper, 11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -69,16 +69,16 @@
 
 
 \section{Slit Scan Notes}
-\label{sec:org9c368ec}
+\label{sec:org9004da3}
 \subsection{Disclaimer}
-\label{sec:org8e7e350}
+\label{sec:orgbeb6ba5}
 These are my basic notes on this project, and are not
 meant for general consumption, and therefore are not
 gauranteed to be accurate or even useful for anyone 
 other than myself. Please see the README.org or the
 README.pdf for that.
 \subsection{Loading Images}
-\label{sec:org02c0f61}
+\label{sec:org82da8ef}
 \begin{itemize}
 \item We could resize one of the images to be the 
 exact same size/dimensions of the other. Would simplify 
@@ -93,7 +93,7 @@ work backwards from there to determine the "slit",
 and should cover this in the math description in the README.
 \end{itemize}
 \subsubsection{Pipelining}
-\label{sec:org308ff54}
+\label{sec:org9df9ff9}
 We can manipulate the source images to be the same size, and rotate
 them to do a horizontal scan. For 2 images, we create each canvas
 seperately, then combine them during the compositing phase.
@@ -101,7 +101,7 @@ seperately, then combine them during the compositing phase.
 Indeed, we shall take a pipelining approach, so we can run all of this
 in parallel to utilize all the available cores.
 \subsection{Scanning the images}
-\label{sec:orge4b2065}
+\label{sec:orgeb7ca4c}
 It just occured to me that we should scan from the basis of the canvas, since
 that is the target, and simply do the math transforms to the source images.
 This way, we can handle blending / dithering / smoothing between pixels on the
@@ -111,7 +111,7 @@ In fact, we can utilize the normal mapping function of the destination, and
 simply address the pixels via the index fuction from the sources.
 
 \subsubsection{Orign of Graphics.Image images}
-\label{sec:orgc1a52c8}
+\label{sec:org1fa11df}
 The origin is in the upper-left corner and descends down and right.
 This is typical of computer graphics going all the way back to the raster scan
 days which almost invariably stated from the upper left and scanned to the
@@ -120,7 +120,7 @@ right and down.
 From a mathematical perspective, I have always found this annoying, but for
 purposes of keeping things "simple", I will embrace that in my math here.
 \subsubsection{Scan Direction}
-\label{sec:org38d5f95}
+\label{sec:org6be1ef2}
 On the source images, we will initally scan from right to left, meaning that
 conceptually the source image is moving from left to right. Time t is a Double
 parameter, even though a single tick of t represents one pixel.
@@ -129,7 +129,7 @@ Scan speed is based on scans per second, which will be somewhat related to
 frames per second, but not perfectly.
 
 \subsubsection{Scan Index (si)}
-\label{sec:org065cc2f}
+\label{sec:org5b04d6b}
 The scan index roughly relates to the frame index (fi) but is based
 on the number of scans per second. On the first frame, si will be less than 
 the actual scan width of both the source and canvas. This will eventually change,
@@ -141,7 +141,7 @@ For the canvas, it will simply go to the end and stop.
 In actuality, I don't think there's anything special we need to do for the
 canvas. It's all on the source, and handling the wrap-around correctly.
 \subsubsection{Logic change}
-\label{sec:org2fef6a3}
+\label{sec:org92947a4}
 I now understand that I must copy a single slit into an array and just 
 keep advancing this array on each iteration, not the way I am doing 
 it with the matrix!!! The logic will have to be shifted.
@@ -155,10 +155,29 @@ accept the next slit.
 We then apply the matrix operators not to the source 
 image, but to the intermediate buffer, to get the
 final effect we are looking for.
+
+Also, for now, we will resize all images to the canvas size.
+Later, we'll change that behavior. So, the mod frame advancement
+math will be a simple modulus with a wraparound.
+\end{itemize}
+\begin{enumerate}
+\item New approach to doing the Slit
+\label{sec:org639427f}
+thanks to the \(backpermute\) function, we can do the following:
+\begin{itemize}
+\item We compute a slit image using \(backpermute\)
+\item We contact that image with the existing intermediate
+\item We crop the new intermediate image to be the correct size.
 \end{itemize}
 
+Using this approach, we now have the flexibility of doing
+our slit, coupled with the staightforwardness of building 
+up the image in the scan. And, of course, we have to
+handle the logic of doing vertical vs horizontal slits.
+\end{enumerate}
+
 \subsection{Outputting the video}
-\label{sec:org09162fe}
+\label{sec:orgf474965}
 We shall use "out" as the path-filename fragment, where
 a 4-digit (or 5-digit?) sequence number shall be appened,
 along with the .EXT (default is png).
@@ -171,5 +190,5 @@ ffmpeg -framerate 30 -pattern_type glob -i '*.png' -c:v libx264 -pix_fmt yuv420p
 
 
 \subsection{Future planned enhancements}
-\label{sec:org2aa5e4b}
+\label{sec:org5a1b90e}
 \end{document}

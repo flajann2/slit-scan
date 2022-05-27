@@ -127,16 +127,16 @@ transformP p f im ss (x, y) = transformToTup
 
 scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
 scanOneFrame p f = do
-  let f' = f { intimg1 = Just $ shiftRight (intimg1 f) (simg1 f)
-             , intimg2 = Just $ shiftRight (intimg2 f) (simg1 f)
+  let f' = f { intimg1 = Just $ intermediateSlitShift (intimg1 f) (simg1 f)
+             , intimg2 = Just $ intermediateSlitShift (intimg2 f) (simg1 f)
              }
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y f')
   return (icanvas, f')
   where
-    shiftRight :: Maybe ImageVRD -> ImageVRD -> ImageVRD
-    shiftRight mim sim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
-                       | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+    intermediateSlitShift :: Maybe ImageVRD -> ImageVRD -> ImageVRD
+    intermediateSlitShift mim sim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
+                                  | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
 
     pixelScanner x y f'
       | side == LeftSide   = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)

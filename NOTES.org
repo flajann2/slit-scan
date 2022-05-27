@@ -81,7 +81,16 @@
       Also, for now, we will resize all images to the canvas size.
       Later, we'll change that behavior. So, the mod frame advancement
       math will be a simple modulus with a wraparound.
-      
+**** New approach to doing the Slit
+     thanks to the $backpermute$ function, we can do the following:
+     + We compute a slit image using $backpermute$
+     + We contact that image with the existing intermediate
+     + We crop the new intermediate image to be the correct size.
+
+     Using this approach, we now have the flexibility of doing
+     our slit, coupled with the staightforwardness of building 
+     up the image in the scan. And, of course, we have to
+     handle the logic of doing vertical vs horizontal slits.
     
 ** Outputting the video
    We shall use "out" as the path-filename fragment, where
