@@ -135,8 +135,11 @@ scanOneFrame p f = do
   return (icanvas, f')
   where
     intermediateSlitShift :: Maybe ImageVRD -> ImageVRD -> ImageVRD
-    intermediateSlitShift mim sim | isJust mim = translate Edge (0, 1) $ fromJust $ intimg1 f
-                                  | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+    intermediateSlitShift mim sim   | isJust mim = catAndChop $ fromJust $ intimg1 f
+                                    | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+      where
+       catAndChop im = translate Edge (0, 1) im
+ 
 
     pixelScanner x y f'
       | side == LeftSide   = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)

@@ -84,7 +84,7 @@
 **** New approach to doing the Slit
      thanks to the $backpermute$ function, we can do the following:
      + We compute a slit image using $backpermute$
-     + We contact that image with the existing intermediate
+     + We concatenate that image with the existing intermediate.
      + We crop the new intermediate image to be the correct size.
 
      Using this approach, we now have the flexibility of doing
