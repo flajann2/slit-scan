@@ -138,7 +138,10 @@ scanOneFrame p f = do
     intermediateSlitShift mim sim   | isJust mim = catAndChop $ fromJust $ intimg1 f
                                     | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
       where
-       catAndChop im = translate Edge (0, 1) im
+       catAndChop im = backpermute (canvas_height p, slit_width p) slitMapper im
+         where
+           slitMapper :: (Int, Int) -> (Int, Int)
+           slitMapper (x, y) = (x, y) -- TODO expand this
  
 
     pixelScanner x y f'
@@ -147,7 +150,7 @@ scanOneFrame p f = do
       | side == TopSide    = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)
       | side == BottomSide = I.maybeIndex (fromJust $ intimg2 f') $ transformP p f (fromJust $ intimg2 f') After  (x, y)
       where
-        side = canvasSide p (x, y) (canvas_height p, canvas_width p)
+        side = canvasSide p (x, y) (canvas_height p, canvas_width p) 
 
 writeOneFrame :: Parms -> Frame -> IO Frame
 writeOneFrame p f = do

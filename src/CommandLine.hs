@@ -21,6 +21,7 @@ data Parms = Parms
   , scans_per_sec           :: Double
   , source_lines_per_second :: Double
   , expand                  :: Double
+  , slit_width              :: Int -- should be an odd number, 1, 3, or 5
   , image_format            :: String
   , out                     :: String
   , viewer                  :: String
@@ -38,6 +39,7 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , scans_per_sec = 60
                     , source_lines_per_second = 10
                     , frames_per_sec = 30
+                    , slit_width = 3
                     , expand = 3
                     , image_format = "png"
                     , out = "./foo"
@@ -113,6 +115,13 @@ parms = Parms
                           <> showDefault
                           <> metavar "FACTOR"
                           <> help "Expansion factor -- 1 or greater. 1 is no expansion."                      
+                        )
+        <*> option auto ( long "slitwidth"
+                          <> short 'S'
+                          <> value 1
+                          <> showDefault
+                          <> metavar "SLITWIDTH"
+                          <> help "Width of the slit. Should be an odd number like 1, 3, or 5."                      
                         )
         <*> option auto ( long "format"
                           <> short 'f'
