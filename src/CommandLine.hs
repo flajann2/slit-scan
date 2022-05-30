@@ -33,18 +33,18 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , img2 = "images/972177.png"
                     , canvas_width  = 1280
                     , canvas_height = 1024
-                    , vert = True
-                    , preview = True
-                    , frames = 600
+                    , vert          = True
+                    , preview       = True
+                    , frames        = 5
                     , scans_per_sec = 60
                     , source_lines_per_second = 10
                     , frames_per_sec = 30
-                    , slit_width = 3
-                    , expand = 3
-                    , image_format = "png"
-                    , out = "./foo"
-                    , viewer = "fim"
-                    , verbose = True
+                    , slit_width     = 5
+                    , expand         = 3
+                    , image_format   = "png"
+                    , out            = "./foopics/dbg"
+                    , viewer         = "fim"
+                    , verbose        = True
                     }
   
 parms :: Parser Parms

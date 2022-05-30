@@ -19,10 +19,20 @@ import Graphics.Image.Interface            as I
 import Graphics.Image.Interface.Repa
 import Prelude                             as P
 
-import CommandLine
-import Scan
+import CommandLine(commandline)
+import Scan(scanFromParms)
          
 main :: IO ()
 main = do
   parms <- commandline
+  print parms
   scanFromParms parms  
+
+
+
+
+
+
+
+
+

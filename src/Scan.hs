@@ -132,18 +132,21 @@ scanOneFrame p f = do
              }
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y f')
+  print f'
   return (icanvas, f')
   where
     intermediateSlitShift :: Maybe ImageVRD -> ImageVRD -> ImageVRD
     intermediateSlitShift mim sim   | isJust mim = catAndChop $ fromJust $ intimg1 f
                                     | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
       where
-       catAndChop im = backpermute (canvas_height p, slit_width p) slitMapper im
+       catAndChop im = backpermute (canvas_height p, slit_width p) (slitMapper sim) sim
          where
-           slitMapper :: (Int, Int) -> (Int, Int)
-           slitMapper (x, y) = (x, y) -- TODO expand this
- 
+           slitMapper :: ImageVRD -> (Int, Int) -> (Int, Int)
+           slitMapper im (x, y) = toTup $ toP  (slitMapperN $ toN (PPoint(x, y)) im) im
 
+           slitMapperN :: NPoint -> NPoint
+           slitMapperN (NPoint(x, y)) = NPoint(x, y)
+ 
     pixelScanner x y f'
       | side == LeftSide   = I.maybeIndex (fromJust $ intimg1 f') $ transformP p f (fromJust $ intimg1 f') Before (x, y)
       | side == RightSide  = I.maybeIndex (fromJust $ intimg2 f') $ transformP p f (fromJust $ intimg2 f') After  (x, y)
@@ -173,8 +176,7 @@ scanFromParms p = do
   
   frms <- listOfFrames p i1 i2
   (a, b) <- getBounds frms
-  _ <- computeFrames p frms a b
-  return ()
+  computeFrames p frms a b
   where
     computeFrames :: Parms -> SSFrameArray -> Int -> Int -> IO ()
     computeFrames _ _ _ 0 = return ()
@@ -186,7 +188,5 @@ scanFromParms p = do
       computeFrames p frms (i+1) (b-1)
         where
           verboseDump p f = do
-             if verbose p
-               then print $ imgfile f
-               else return ()
+             if verbose p then print $ imgfile f else return ()
 
