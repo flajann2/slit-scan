@@ -25,6 +25,7 @@ import Data.Array.Repa.Stencil             as R
 import Data.Array.Repa.Stencil.Dim2        as R
 import Data.Functor
 import Data.Array.IO                       as R
+import Data.IORef                          as R
 
 import Numeric.LinearAlgebra               as N
 import Algebra.RealRing (fraction)
@@ -77,6 +78,9 @@ instance ParametricSlit NPoint Double Int where
   swapComp (NPoint(x,y)) = NPoint(y,x) -- we do this when the slit is flipped from horizontal to vertica
   frameIndexToSlit ix = undefined
   
+-- We do the ioref on the intermediate image since we must constantly update it 
+newtype IntImageVRD = IORef ImageVRD deriving Show
+
 -- We create a list of that which shall be evaluated
 data Frame = Frame { fi        :: Int            -- frame index
                    , ti        :: Double         -- time index, based on the number of frames per second
@@ -88,8 +92,8 @@ data Frame = Frame { fi        :: Int            -- frame index
                    , simg2     :: ImageVRD       -- source image 2
                    , foffsimg2 :: Int            -- frame offset for source image 2
                    
-                   , intimg1   :: Maybe ImageVRD -- intermediate image 1
-                   , intimg2   :: Maybe ImageVRD -- intermediate image 2
+                   , intimg1   :: IntImageVRD    -- intermediate image 1
+                   , intimg2   :: IntImageVRD    -- intermediate image 2
 
                    , imgfile   :: String         -- pathname to the image frame that will be written
                    , slitM     :: MatrixD        -- (computed) slit matrix
@@ -125,6 +129,9 @@ transformP p f im ss (x, y) = transformToTup
     npoint' = vToN $ scanV + slitM f #> nToV npoint
     transformToTup = toTup $ toP npoint' im
 
+makeImageVRD :: Parms -> ImageVRD
+makeImageVRD p = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+
 scanOneFrame :: Parms -> Frame -> IO (ImageVRD, Frame)
 scanOneFrame p f = do
   let f' = f { intimg1 = Just $ intermediateSlitShift (intimg1 f) (simg1 f)
@@ -137,7 +144,7 @@ scanOneFrame p f = do
   where
     intermediateSlitShift :: Maybe ImageVRD -> ImageVRD -> ImageVRD
     intermediateSlitShift mim sim   | isJust mim = catAndChop $ fromJust $ intimg1 f
-                                    | otherwise = makeImage (canvas_height p, canvas_width p) (\(_, _) -> PixelRGB 0 0 0)
+                                    | otherwise = makeImageVRD p 
       where
        catAndChop im = backpermute (canvas_height p, slit_width p) (slitMapper sim) sim
          where
@@ -167,14 +174,17 @@ writeOneFrame p f = do
 
 scanFromParms :: Parms -> IO ()
 scanFromParms p = do
-  i1' <- I.readImageRGB VU $ img1 p
-  i2' <- I.readImageRGB VU $ img2 p
+  si1' <- I.readImageRGB VU $ img1 p
+  si2' <- I.readImageRGB VU $ img2 p
 
   -- resize everything to canvas dimensions to simplify the math.
-  let i1 = resize Bilinear Edge (canvas_height p, canvas_width p) i1'
-  let i2 = resize Bilinear Edge (canvas_height p, canvas_width p) i2'
+  let si1 = resize Bilinear Edge (canvas_height p, canvas_width p) i1'
+  let si2 = resize Bilinear Edge (canvas_height p, canvas_width p) i2'
+
+  ii1 <- newIntImageVRD p
+  ii2 <- newIntImageVRD p
   
-  frms <- listOfFrames p i1 i2
+  frms <- listOfFrames p si1 si2
   (a, b) <- getBounds frms
   computeFrames p frms a b
   where
@@ -189,4 +199,5 @@ scanFromParms p = do
         where
           verboseDump p f = do
              if verbose p then print $ imgfile f else return ()
-
+             
+          newIntImageVRD p = newIORef $ makeImageVRD p
