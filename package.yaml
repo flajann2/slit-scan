@@ -39,6 +39,7 @@ library:
     - async
     - array
     - numeric-prelude
+    - base # for debugging via Debug.Trace
  
 executables:
   slit-scan:

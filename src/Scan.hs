@@ -45,6 +45,8 @@ import qualified Data.Text                 as T
 import qualified Data.Text.Lazy            as TL
 import qualified Data.Text.Lazy.Builder    as TLB
 
+import Debug.Trace                         as D -- TODO this goes away in production
+
 data CanvasSide = LeftSide
                 | RightSide
                 | TopSide
@@ -106,17 +108,17 @@ fi2 f = fi f - foffsimg2 f
 
 type SSFrameArray = IOArray Int Frame
 
-listOfFrames :: Parms -> ImageVRD -> ImageVRD -> IO SSFrameArray
-listOfFrames p i1 i2 = newListArray (0, frames p)
+listOfFrames :: Parms -> ImageVRD -> ImageVRD -> IntImageVRD -> IntImageVRD -> IO SSFrameArray
+listOfFrames p s1 s2  i1 i2 = newListArray (0, frames p)
                        [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
                               , si = fromIntegral i * scans_per_sec p / frames_per_sec p
-                              , simg1 = i1
-                              , simg2 = i2
+                              , simg1 = s1
+                              , simg2 = s2
                               , foffsimg1 = 0 -- TODO - logic to handle multiple images
                               , foffsimg2 = 0 -- TODO - logic to handle multiple images
-                              , intimg1 = Nothing
-                              , intimg2 = Nothing
+                              , intimg1 = i1
+                              , intimg2 = i2
                               , imgfile = out p ++ formatToString ("_" % left 4 '0' % "." % string) i (image_format p)
                               , slitM = slitMatrix p
                               } | i <- [0 .. frames p]]
@@ -142,7 +144,7 @@ scanOneFrame p f = do
   print f'
   return (icanvas, f')
   where
-    intermediateSlitShift :: Maybe ImageVRD -> ImageVRD -> ImageVRD
+    intermediateSlitShift :: Maybe IntImageVRD -> ImageVRD -> ImageVRD
     intermediateSlitShift mim sim   | isJust mim = catAndChop $ fromJust $ intimg1 f
                                     | otherwise = makeImageVRD p 
       where
