@@ -103,8 +103,11 @@ data Frame = Frame { fi        :: Int            -- frame index
                    , slitM     :: MatrixD        -- (computed) slit matrix
                    } deriving Show
 
+-- this is annoying that we cannot just get at the image past the IO
+-- so we simply do a "catchall" message for the IORef.
+
 instance Show IntImageVRD where
-  show a = show $ readIORef a
+  show a = show "<<IORef ImageVRD>>"  -- $ readIORef a
   
 -- The following are related to Frame. TODO -- tie these directly to Frame somehow
 -- this will become especially useful when we specify multiple images for simg1 as well as simg2. TODO
@@ -155,7 +158,7 @@ scanOneFrame p f = do
   return icanvas
   where
     intermediateSlitShift :: ImageVRD -> ImageVRD -> ImageVRD
-    intermediateSlitShift mim sim = catAndChop min
+    intermediateSlitShift intimg sim = catAndChop intimg
       where
        catAndChop im = backpermute (canvas_height p, slit_width p) (slitMapper sim) sim
          where
