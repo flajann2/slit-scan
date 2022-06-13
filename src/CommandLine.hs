@@ -117,7 +117,7 @@ parms = Parms
                           <> help "Expansion factor -- 1 or greater. 1 is no expansion."                      
                         )
         <*> option auto ( long "slitwidth"
-                          <> short 'S'
+                          <> short 'W'
                           <> value 1
                           <> showDefault
                           <> metavar "SLITWIDTH"

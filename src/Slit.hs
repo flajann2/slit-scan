@@ -55,6 +55,7 @@ newtype PPoint = PPoint (Int, Int)       deriving (Show, Eq)
 -- convert a Physical point to a Normalised point
 toNrc :: PPoint -> (Int, Int) -> NPoint
 toNrc (PPoint(x,y)) (rows, cols) = NPoint( fromIntegral x / fromIntegral rows
+                                         , fromIntegral y / fromIntegral cols)
 
 toN :: PPoint -> ImageVRD -> NPoint
 toN p im = toNrc p (I.rows im, I.cols im)

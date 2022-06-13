@@ -60,8 +60,8 @@ data SlitSide = Before | After deriving (Eq, Show)
 
 canvasSide :: Parms -> (Int, Int) -> (Int, Int) -> CanvasSide
 canvasSide p (x, y) (rows, cols)
-  | vertDir == True = verticalSlit
-  | otherwise       = horizontalSlit
+  | vertDir   = verticalSlit
+  | otherwise = horizontalSlit
   where
     vertDir = vert p
     verticalSlit   
@@ -146,8 +146,8 @@ scanOneFrame p f = do
   im1 <- readIORef $ intimg1 f
   im2 <- readIORef $ intimg2 f
   
-  writeIORef (intimg1 f) $ intermediateSlitShift im1 $ simg1 f
-  writeIORef (intimg2 f) $ intermediateSlitShift im2 $ simg2 f
+  writeIORef (intimg1 f) $ traceShowId $ intermediateSlitShift im1 $ simg1 f
+  writeIORef (intimg2 f) $ traceShowId $ intermediateSlitShift im2 $ simg2 f
 
   im1' <- readIORef $ intimg1 f
   im2' <- readIORef $ intimg2 f
@@ -160,7 +160,7 @@ scanOneFrame p f = do
     intermediateSlitShift :: ImageVRD -> ImageVRD -> ImageVRD
     intermediateSlitShift intimg sim = catAndChop intimg
       where
-       catAndChop im = backpermute (canvas_height p, slit_width p) (slitMapper sim) sim
+       catAndChop im = leftToRight (backpermute (canvas_height p, slit_width p) (slitMapper sim) sim) im
          where
            slitMapper :: ImageVRD -> (Int, Int) -> (Int, Int)
            slitMapper im (x, y) = toTup $ toP  (slitMapperN $ toN (PPoint(x, y)) im) im
