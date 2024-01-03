@@ -1,4 +1,4 @@
-#+TITLE: Slit Scan -- Generate an effect similar to 2001's star gate sequences
+#+TITLE: Slit Scan -- Generate an effect similar to 2001's star gate sequences. Written in Haskell.
 #+AUTHOR: Fred Mitchell
 #+SETUPFILE: /development/config/LaTeX-Org-setup.org
 
