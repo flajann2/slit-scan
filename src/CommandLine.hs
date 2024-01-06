@@ -27,8 +27,8 @@ data Parms = Parms
   } deriving Show
 
 --TODO: this is mainly for testing. delete this in production
-sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
-                    , img2 = "images/972177.png"
+sampleParms = Parms { img1 = "./images/equations.png"
+                    , img2 = "./images/graph01.png"
                     , canvas_width  = 1024
                     , canvas_height = 1024
                     , vert = True
@@ -38,7 +38,7 @@ sampleParms = Parms { img1 = "images/GRAPH-Hemoglobin-Oxy-dark-bg.png"
                     , frames_per_sec = 30
                     , expand = 3
                     , image_format = "png"
-                    , out = "./foo"
+                    , out = "./film"
                     , viewer = "fim"
                     , verbose = True
                     }

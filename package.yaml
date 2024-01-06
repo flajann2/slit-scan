@@ -3,8 +3,8 @@ version:             0.0.0.0
 github:              "flajann2/slit-scan"
 license:             MIT
 author:              "Fred Mitchell"
-maintainer:          "fred.mitchell@kiwelt.de"
-copyright:           "2022 Fred Mitchell"
+maintainer:          "fred.mitchell@atomlogik.de"
+copyright:           "2022-2024 Fred Mitchell"
 
 extra-source-files:
 - README.pdf
