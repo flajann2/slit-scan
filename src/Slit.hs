@@ -44,6 +44,7 @@ import Prelude                             as P
 
 import Numeric.LinearAlgebra               as N
 import Numeric.LinearAlgebra.Data          as N
+import Debug.Trace(trace)
 
 type ImageVRD = I.Image VU RGB Double
 type PixelVRD = I.Pixel RGB Double
@@ -52,6 +53,7 @@ newtype NPoint = NPoint (Double, Double) deriving (Show, Eq)
 newtype PPoint = PPoint (Int, Int)       deriving (Show, Eq)
 
 -- convert a Physical point to a Normalised point
+-- to normalised [0.0, 1.0)
 toNrc :: PPoint -> (Int, Int) -> NPoint
 toNrc (PPoint(x,y)) (rows, cols) = NPoint( fromIntegral x / fromIntegral rows
                                          , fromIntegral y / fromIntegral cols)

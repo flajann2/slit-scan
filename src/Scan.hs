@@ -37,6 +37,7 @@ import Formatting                          as F
 import qualified Data.Text                 as T
 import qualified Data.Text.Lazy            as TL
 import qualified Data.Text.Lazy.Builder    as TLB
+import Debug.Trace(trace)
 
 data CanvasSide = LeftSide
                 | RightSide
@@ -58,7 +59,7 @@ canvasSide p (x, y) (rows, cols)
       | otherwise  = RightSide
     horizontalSlit 
       | y*2 < cols = TopSide
-      |otherwise   = BottomSide
+      | otherwise   = BottomSide
 
 fromMaybePixel :: Maybe PixelVRD -> PixelVRD
 fromMaybePixel Nothing  = PixelRGB 0 0 0
@@ -74,7 +75,7 @@ data Frame = Frame { fi :: Int          -- frame index
                    , slitM :: MatrixD   -- (computed) slit matrix
                    } deriving Show
 
-listOfFrames :: Parms -> ImageVRD -> ImageVRD ->  [Frame]
+listOfFrames :: Parms -> ImageVRD -> ImageVRD -> [Frame]
 listOfFrames p i1 i2 = [Frame { fi = i
                               , ti = fromIntegral i / frames_per_sec p
                               , si = round $ fromIntegral i * scans_per_sec p / frames_per_sec p
@@ -94,6 +95,7 @@ transformP p f im ss (x, y) = transformToTup
 
 scanOneFrame :: Parms -> Frame -> IO ImageVRD
 scanOneFrame p f = do
+  trace ("si: " ++ show (si f) ++ " slitM: " ++ show (slitM f)) $ return()
   let icanvas = makeImage (canvas_height p, canvas_width p)
         (\(x, y) -> fromMaybePixel $ pixelScanner x y)
   return icanvas
@@ -119,6 +121,7 @@ writeOneFrame p f = do
 
 scanFromParms :: Parms -> IO ()
 scanFromParms p = do
+  trace ("parms: " ++ show p) $ return()
   i1 <- I.readImageRGB VU $ img1 p
   i2 <- I.readImageRGB VU $ img2 p
   let frames = listOfFrames p i1 i2

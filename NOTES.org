@@ -78,5 +78,7 @@
 
 ** Future planned enhancements
 * Developer Notes
-** Running the tests
-   
+** Running the development tests
+   time stack run slit-scan -- -1 images/test_image_1.png -2 images/test_image_2.png -o ./film/test -s 20 -m 4
+** Developer's Logs
+   + 

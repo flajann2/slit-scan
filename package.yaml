@@ -7,8 +7,8 @@ maintainer:          "fred.mitchell@atomlogik.de"
 copyright:           "2022-2024 Fred Mitchell"
 
 extra-source-files:
-- README.pdf
-- ChangeLog.org
+  - README.pdf
+  - ChangeLog.org
 
 # Metadata used when publishing your package
 synopsis:            Slit Scan command-line implementation.
@@ -17,7 +17,7 @@ category:            Graphics, Image Processing
 description:         Please see the README PDF on GitHub at <https://github.com/flajann2/slit-scan#readme>
 
 dependencies:
-- base >= 4.7 && < 5
+  - base >= 4.7 && < 5
 
 library:
   source-dirs: src
@@ -56,7 +56,7 @@ executables:
       - repa-algorithms
       - criterion
       - unagi-chan
-
+      
   bench-Hip:
     main:                bench-Hip.hs
     source-dirs:         examples

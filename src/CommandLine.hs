@@ -31,7 +31,7 @@ sampleParms = Parms { img1 = "./images/equations.png"
                     , img2 = "./images/graph01.png"
                     , canvas_width  = 1024
                     , canvas_height = 1024
-                    , vert = True
+                    , vert = False
                     , preview = True
                     , frames = 600
                     , scans_per_sec = 60
@@ -137,7 +137,7 @@ commandline = cmd =<< execParser opts
     opts = info (parms <**> helper)
       ( fullDesc
         <> progDesc "Create a slit-scan composition from SOURCE1 and optionally SOURCE2 images."
-        <> header "hello - a test for optparse-applicative"
+        <> header "Slit Scan -- create the wormhole effect from 2001: A Space Odyssey"
       )
 
 cmd :: Parms -> IO Parms
